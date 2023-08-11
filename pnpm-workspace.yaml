@@ -1,0 +1,6 @@
+packages:
+  - "apps/*"
+  - "contracts/*"
+  - "packages/*"
+overrides:
+  "wagmi": "1.3.8"

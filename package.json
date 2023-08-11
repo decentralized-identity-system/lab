@@ -1,0 +1,34 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "build:api": "turbo run --filter @district-labs/api* build",
+    "build:demo": "turbo run --filter @district-labs/demo build",
+    "build:react": "turbo run --filter @district-labs/react* build",
+    "build:sdk": "turbo run --filter @district-labs/sdk* build",
+    "build:web": "turbo run --filter @district-labs/web build ",
+    "clean": "turbo run clean ; rimraf node_modules",
+    "dev": "turbo run dev --concurrency 25",
+    "dev:react": "pnpm --filter @district-labs/react* dev",
+    "export": "turbo run export",
+    "deploy:dev": "turbo run deploy:dev",
+    "generate": "turbo run generate",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "format": "turbo run format",
+    "fix": "syncpack fix-mismatches --source 'apps/*/package.json'"
+  },
+  "devDependencies": {
+    "eslint": "8.30.0",
+    "prettier": "^2.8.1",
+    "rimraf": "^4.4.0",
+    "syncpack": "^9.8.4",
+    "turbo": "latest"
+  },
+  "packageManager": "pnpm@8.1.0",
+  "pnpm": {
+    "overrides": {
+      "wagmi": "1.3.8"
+    }
+  }
+}

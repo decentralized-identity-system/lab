@@ -1,0 +1,46 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local","NODE_ENV"],
+  "pipeline": {
+    "@district-labs/web#build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**"],
+      "env": [
+        "NEXT_PUBLIC_WEBAPP_URL",
+        "NEXT_PUBLIC_PROVIDER_PUBLIC",
+        "NEXT_PUBLIC_ALCHEMY_API_KEY",
+        "NEXT_PUBLIC_INFURA_API_KEY"
+      ]
+    },
+    "build": {
+      "outputs": ["build/**", "dist/**"],
+      "dependsOn": ["^build"]
+    },
+    "export": {
+      "outputs": ["out/**"],
+      "dependsOn": ["^build", "^export"]
+    },
+    "test": {
+      "outputs": ["coverage/**"],
+      "dependsOn": []
+    },
+    "generate": {
+      "outputs": ["generate/**"],
+      "dependsOn": []
+    },
+    "format": {},
+    "dev": {
+      "inputs": ["src/**", "public/**", "package.json"],
+      "outputs": ["dist/**", ".next/**", "node_modules/**"],
+      "cache": false,
+      "persistent": true
+    },
+    "deployt:dev": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+} 
+
