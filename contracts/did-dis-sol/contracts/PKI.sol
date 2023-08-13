@@ -47,12 +47,10 @@ contract PKI is IWalletFactory {
     return size > 0;
   }
 
-  function computeAddress(address walletOwner, uint256 salt)
-    public
-    view
-    override
-    returns (address)
-  {
+  function computeAddress(
+    address walletOwner,
+    uint256 salt
+  ) public view override returns (address) {
     return
       Create2.computeAddress(
         bytes32(salt),
@@ -63,14 +61,6 @@ contract PKI is IWalletFactory {
           )
         )
       );
-  }
-
-  function walletExists(address target) external view returns (bool) {
-    uint256 size;
-    assembly {
-      size := extcodesize(target)
-    }
-    return size > 0;
   }
 
   function did(string calldata id) external view {
@@ -99,12 +89,10 @@ contract PKI is IWalletFactory {
     }
   }
 
-  function document(bytes calldata response, bytes calldata extraData)
-    external
-    view
-    virtual
-    returns (string memory DID)
-  {
+  function document(
+    bytes calldata response,
+    bytes calldata extraData
+  ) external view virtual returns (string memory DID) {
     // Stateful Response from the `did` method
     bytes memory pki = extraData[0:20];
     bytes memory wallet = extraData[20:40];
@@ -134,12 +122,10 @@ contract PKI is IWalletFactory {
     return string(didHex);
   }
 
-  function resolve(bytes calldata response, bytes calldata extraData)
-    external
-    view
-    virtual
-    returns (string memory DID)
-  {
+  function resolve(
+    bytes calldata response,
+    bytes calldata extraData
+  ) external view virtual returns (string memory DID) {
     // Stateful Response from the `did` method
     bytes memory pki = extraData[0:20];
     bytes memory wallet = extraData[20:40];
@@ -230,11 +216,10 @@ contract PKI is IWalletFactory {
     return addr;
   }
 
-  function _recoverSigner(bytes32 msgHash, bytes memory msgSignature)
-    internal
-    pure
-    returns (address)
-  {
+  function _recoverSigner(
+    bytes32 msgHash,
+    bytes memory msgSignature
+  ) internal pure returns (address) {
     bytes32 r;
     bytes32 s;
     uint8 v;
