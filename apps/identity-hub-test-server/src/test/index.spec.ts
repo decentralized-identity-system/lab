@@ -3,14 +3,16 @@ import { app } from "../app";
 
 describe("GET /", () => {
     it("should return 200 OK", () => {
-        return request(app).get("/")
-            .expect(200);
+        return request(app).get("/").expect(200);
     });
 
-    it("should return Welcome to Express", (done) => {
-        return request(app).get("/")
-            .end(function(err, res) {
-                expect(res.text).toContain("Welcome to Express");
+    it("should return Welcome to Decentralized Identity System", done => {
+        return request(app)
+            .get("/")
+            .end(function (err, res) {
+                expect(res.text).toContain(
+                    "Welcome to Decentralized Identity System",
+                );
                 done();
             });
     });
