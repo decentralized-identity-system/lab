@@ -5,7 +5,7 @@ import { ethers } from 'hardhat';
 
 const { provider } = ethers;
 const { getSigners } = ethers;
-const ABI_CODER = new ethers.utils.AbiCoder
+const ABI_CODER = new ethers.utils.AbiCoder();
 
 describe.only('Wallet', () => {
   // Signers
@@ -20,19 +20,19 @@ describe.only('Wallet', () => {
   let WalletFactory: ContractFactory;
 
   // Constants
-  const ENTRYPOINT = "0xdEAD000000000000000042069420694206942069"
+  const ENTRYPOINT = '0xdEAD000000000000000042069420694206942069';
   const URL_COUNTERFACTUAL = 'http://localhost:3000/materialized/{sender}';
   const URL_MATERIALIZED = 'http://localhost:3000/materialized/{sender}';
 
   // DID Document Object using Wallet0 address
   let DID = {
     '@context': 'https://www.w3.org/ns/did/v1',
-    id: "did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x0cFd869c63b828C28b758A7a96B15E62Be013a22",
-  }
+    id: 'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x0cFd869c63b828C28b758A7a96B15E62Be013a22',
+  };
 
   before(async () => {
-    [wallet0, wallet1 ] = await getSigners();
-    PKIFactory = await ethers.getContractFactory('PKI');    
+    [wallet0, wallet1] = await getSigners();
+    PKIFactory = await ethers.getContractFactory('PKI');
     PKI = await PKIFactory.deploy(ENTRYPOINT, [URL_COUNTERFACTUAL]);
     WalletFactory = await ethers.getContractFactory('Wallet');
   });
@@ -50,7 +50,7 @@ describe.only('Wallet', () => {
   //     })
 
   //     const [decoded] = ABI_CODER.decode(['string'], data)
-  //     const DID_OBJECT = JSON.parse(decoded)  
+  //     const DID_OBJECT = JSON.parse(decoded)
   //     expect(DID_OBJECT).to.deep.equal(DID)
   //   });
   // });
