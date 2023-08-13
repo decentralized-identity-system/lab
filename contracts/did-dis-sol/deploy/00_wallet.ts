@@ -7,7 +7,7 @@ export default async function deploy(hardhat: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
-  const URL = 'http://localhost:3000/{sender}';
+  const URL = "http://localhost:3000/{sender}";
   const OWNER = ethers.constants.AddressZero;
 
   await deploy("Wallet", {
