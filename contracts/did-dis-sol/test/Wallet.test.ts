@@ -3,11 +3,20 @@ import { expect } from 'chai';
 import { Contract, ContractFactory } from 'ethers';
 import { ethers } from 'hardhat';
 
-const { provider } = ethers;
 const { getSigners } = ethers;
-const ABI_CODER = new ethers.utils.AbiCoder();
 
 describe('Wallet', () => {
+  // Smart Wallet Constants
+  const ENTRYPOINT = '0xdEAD000000000000000042069420694206942069';
+  const SALT_ONE = 1;
+
+  // Identity Constants
+  const URL_MATERIALIZED = 'http://localhost:3000/materialized/{sender}/{data}';
+
+  // Recovery Constants
+  const RECOVERY = '0xdEAD000000000000000042069420694206942069';
+
+
   // Signers
   let wallet0: SignerWithAddress;
   let wallet1: SignerWithAddress;
@@ -19,39 +28,22 @@ describe('Wallet', () => {
   let Wallet: Contract;
   let WalletFactory: ContractFactory;
 
-  // Constants
-  const ENTRYPOINT = '0xdEAD000000000000000042069420694206942069';
-  const URL_COUNTERFACTUAL = 'http://localhost:3000/materialized/{sender}';
-  const URL_MATERIALIZED = 'http://localhost:3000/materialized/{sender}';
 
-  // DID Document Object using Wallet0 address
-  let DID = {
-    '@context': 'https://www.w3.org/ns/did/v1',
-    id: 'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x9B52301d9467D49e40Fcb7dFc4b1766DFEFCd007',
-  };
 
   before(async () => {
     [wallet0, wallet1] = await getSigners();
     PKIFactory = await ethers.getContractFactory('PKI');
-    PKI = await PKIFactory.deploy(ENTRYPOINT, [URL_COUNTERFACTUAL]);
+    PKI = await PKIFactory.deploy(ENTRYPOINT, [URL_MATERIALIZED]);
     WalletFactory = await ethers.getContractFactory('Wallet');
   });
 
   beforeEach(async () => {
-    // Wallet = await WalletFactory.deploy(ethers.constants.AddressZero, PKI.address, wallet0.address, [URL_MATERIALIZED],);
+
   });
 
-  // describe('function did() external view', () => {
-  //   it('should SUCCEED to resolve the Smart Wallet DID', async () => {
-  //     const data = await provider.call({
-  //       to: Wallet.address,
-  //       data: Wallet.interface.encodeFunctionData('did', []),
-  //       ccipReadEnabled: true,
-  //     })
-
-  //     const [decoded] = ABI_CODER.decode(['string'], data)
-  //     const DID_OBJECT = JSON.parse(decoded)
-  //     expect(DID_OBJECT).to.deep.equal(DID)
-  //   });
-  // });
+  describe('function execute(address dest, uint256 value, bytes calldata func)', () => {
+    it('should SUCCEED to execute a transaction from Smart Wallet owner', async () => {
+      expect(false)
+    });
+  });
 });

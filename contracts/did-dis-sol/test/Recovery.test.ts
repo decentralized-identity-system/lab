@@ -10,15 +10,19 @@ import { ethers } from 'hardhat';
 
 const { getSigners } = ethers;
 
-describe.only('Recovery', () => {
-  // Constants
+describe('Recovery', () => {
+  // Smart Wallet Constants
   const ENTRYPOINT = '0xdEAD000000000000000042069420694206942069';
+  const SALT_ONE = 1;
+
+  // Identity Constants
+  const URL_COUNTERFACTUAL = 'http://localhost:3000/materialized/{sender}/{data}';
+  const URL_MATERIALIZED = 'http://localhost:3000/materialized/{sender}/{data}';
+
+  // Recovery | Semaphore Constants
   const GROUP_ID = BigNumber.from(1).toHexString();
   const SIGNAL = 'SEMAPHORE'
   const TOP_SECRET_MESSAGE = 'TOP_SECRET_MESSAGE'
-  const SALT_ONE = 1;
-  const URL_COUNTERFACTUAL = 'http://localhost:3000/materialized/{sender}/{data}';
-
   const wasmFilePath = `./build/snark-artifacts/semaphore.wasm`
   const zkeyFilePath = `./build/snark-artifacts/semaphore.zkey`
 
@@ -36,6 +40,7 @@ describe.only('Recovery', () => {
   // Recovery | Semaphore Contracts
   let Recovery: Contract;
   let RecoveryFactory: ContractFactory;
+
   before(async () => {
     [wallet0, wallet1] = await getSigners();
     PKIFactory = await ethers.getContractFactory('PKI');
@@ -44,10 +49,8 @@ describe.only('Recovery', () => {
 
     // Recovery | Semaphore Contracts
     const PairingFactory = await ethers.getContractFactory('Pairing');
-    const Pairing = await PairingFactory.deploy();
     const pairing = await PairingFactory.deploy()
     await pairing.deployed()
-    console.info(`Pairing library has been deployed to: ${pairing.address}`)
 
     const SemaphoreVerifierFactory = await ethers.getContractFactory("SemaphoreVerifier", {
       libraries: {
@@ -57,17 +60,13 @@ describe.only('Recovery', () => {
     const semaphoreVerifier = await SemaphoreVerifierFactory.deploy()
     await semaphoreVerifier.deployed()
 
-    console.info(`SemaphoreVerifier contract has been deployed to: ${semaphoreVerifier.address}`)
-
     const poseidonABI = poseidonContract.generateABI(2)
                     const poseidonBytecode = poseidonContract.createCode(2)
 
     const [signer] = await ethers.getSigners()
     const PoseidonFactory = new ethers.ContractFactory(poseidonABI, poseidonBytecode, signer)
     const poseidon = await PoseidonFactory.deploy()
-
     await poseidon.deployed()
-    console.info(`Poseidon library has been deployed to: ${poseidon.address}`)
 
     const IncrementalBinaryTreeFactory = await ethers.getContractFactory("IncrementalBinaryTree", {
       libraries: {
@@ -88,7 +87,6 @@ describe.only('Recovery', () => {
 
     await Semaphore.deployed()
 
-    console.info(`Semaphore contract has been deployed to: ${Semaphore.address}`)
     RecoveryFactory = await ethers.getContractFactory('Recovery');
     Recovery = await RecoveryFactory.deploy(Semaphore.address, GROUP_ID);
 
@@ -100,9 +98,8 @@ describe.only('Recovery', () => {
 
   describe('function did() external view', () => {
     it('should SUCCEED to recover Smart Wallet using Recovery', async () => {
-      const address = await PKI.computeAddress(Recovery.address, wallet0.address, SALT_ONE);
       // constructor(address _entry, address _pki, address _recovery, address _owner, string[] memory __urls)
-      const wallet = await WalletFactory.deploy(ethers.constants.AddressZero, PKI.address, Recovery.address, wallet0.address, [URL_COUNTERFACTUAL]);
+      const wallet = await WalletFactory.deploy(ENTRYPOINT, PKI.address, Recovery.address, wallet0.address, [URL_MATERIALIZED]);
       await wallet.deployed();
 
       const identity = new Identity(TOP_SECRET_MESSAGE)

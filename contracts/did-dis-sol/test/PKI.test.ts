@@ -8,6 +8,18 @@ const { getSigners } = ethers;
 const ABI_CODER = new ethers.utils.AbiCoder();
 
 describe('PublicKeyInfrastructure', () => {
+  // Smart Wallet Constants
+  const ENTRYPOINT = '0xdEAD000000000000000042069420694206942069';
+  const SALT_ONE = 1;
+  const SALT_TWO = 2;
+
+  // Identity Constants
+  const URL_COUNTERFACTUAL = 'http://localhost:3000/counterfactual/{sender}/{data}';
+  const URL_MATERIALIZED = 'http://localhost:3000/materialized/{sender}/{data}';
+
+  // Recovery Constants
+  const RECOVERY = '0xdEAD000000000000000042069420694206942069';
+
   // Signers
   let wallet0: SignerWithAddress;
   let wallet1: SignerWithAddress;
@@ -16,17 +28,10 @@ describe('PublicKeyInfrastructure', () => {
   let PKI: Contract;
   let PKIFactory: ContractFactory;
 
-  // Constants
-  const ENTRYPOINT = '0xdEAD000000000000000042069420694206942069';
-  const SALT_ONE = 1;
-  const SALT_TWO = 2;
-  const SALT_THREE = 3;
-  const URL_COUNTERFACTUAL = 'http://localhost:3000/counterfactual/{sender}/{data}';
-  const URL_MATERIALIZED = 'http://localhost:3000/materialized/{sender}/{data}';
 
   // DID Document Object
   const DID_ID =
-    'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x9B52301d9467D49e40Fcb7dFc4b1766DFEFCd007';
+    'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0xc809050143d31d20dDf7bcbA132bfA30120c92A1';
   const DID = {
     '@context': 'https://www.w3.org/ns/did/v1',
     id: DID_ID,
@@ -43,8 +48,8 @@ describe('PublicKeyInfrastructure', () => {
 
     // const did_hash = ethers.utils.solidityKeccak256(["string"], [JSON.stringify(DID)])
     // const did_signature = await wallet0.signMessage(ethers.utils.arrayify(did_hash))
-    // const walletSignature = await wallet0.signMessage(ethers.utils.arrayify(ethers.utils.solidityKeccak256(["address", "address", "uint256"], [PKI.address, wallet0.address, SALT_ONE])));
-    // const walletAddress = await PKI.computeAddress(wallet0.address, SALT_ONE);
+    // const walletSignature = await wallet0.signMessage(ethers.utils.arrayify(ethers.utils.solidityKeccak256(["address", "address", "address", "uint256"], [PKI.address, RECOVERY, wallet0.address, SALT_ONE])));
+    // const walletAddress = await PKI.computeAddress(RECOVERY,wallet0.address, SALT_ONE);
     // console.log(PKI.address, 'PKI.address')
     // console.log(did_signature, 'did_signature')
     // console.log(walletSignature, 'walletSignature')
@@ -68,12 +73,10 @@ describe('PublicKeyInfrastructure', () => {
     });
 
     it('should SUCCEED to resolve a DID document via a materialized Smart Wallet', async () => {
-      const address = await PKI.computeAddress(wallet0.address, SALT_ONE);
-      await PKI.deployWallet(wallet0.address, SALT_ONE);
-
+      const address = await PKI.computeAddress(RECOVERY, wallet0.address, SALT_ONE);
+      await PKI.deployWallet(RECOVERY, wallet0.address, SALT_ONE);
       const wallet = (await ethers.getContractAt('Wallet', address)).connect(wallet0);
-      const isOwner = await wallet.isOwner(wallet0.address);
-      await wallet.setUrls([URL_MATERIALIZED, URL_MATERIALIZED]);
+      await wallet.setUrls([URL_MATERIALIZED]);
       const data = await provider.call({
         to: PKI.address,
         data: PKI.interface.encodeFunctionData('did', [DID_ID]),
@@ -88,17 +91,17 @@ describe('PublicKeyInfrastructure', () => {
 
   describe('computeAddress(address entryPoint, address walletOwner, uint256 salt)', () => {
     it('should SUCCEED to get compute a future Smart Wallet address', async () => {
-      const address = await PKI.computeAddress(wallet0.address, SALT_ONE);
-      expect(address).to.equal('0x9B52301d9467D49e40Fcb7dFc4b1766DFEFCd007');
+      const address = await PKI.computeAddress(RECOVERY, wallet0.address, SALT_ONE);
+      expect(address).to.equal('0xc809050143d31d20dDf7bcbA132bfA30120c92A1');
     });
   });
 
   describe('deployWallet(address entryPoint, address walletOwner, uint256 salt)', () => {
     it('should SUCCEED to get a future Smart Wallet address matching the computed address', async () => {
-      const address = await PKI.computeAddress(wallet0.address, SALT_THREE);
+      const address = await PKI.computeAddress(RECOVERY, wallet0.address, SALT_TWO);
 
       const counterfactual = await PKI.isWallet(address);
-      await PKI.deployWallet(wallet0.address, SALT_THREE);
+      await PKI.deployWallet(RECOVERY, wallet0.address, SALT_TWO);
       const materialized = await PKI.isWallet(address);
 
       expect(counterfactual).to.equal(false);

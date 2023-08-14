@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.4;
 
+import "hardhat/console.sol";
 import { Wallet } from "./Wallet.sol";
 import {IWalletFactory} from "./interfaces/IWalletFactory.sol";
 import {Create2} from "./utils/Create2.sol";
@@ -88,24 +89,28 @@ contract PKI is IWalletFactory {
         bytes memory wallet = extraData[20:40];
 
         // Reponse from Offchain Data Storage
+        // bytes memory saltBytes = response[0:32];
+        // bytes memory walletSignature = response[32:97];
+        // bytes memory didSiganture = response[97:162];
+        // bytes memory didHex = response[162:];
         bytes memory saltBytes = response[0:32];
-        bytes memory didSiganture = response[97:162];
-        bytes memory walletSignature = response[32:97];
-        bytes memory didHex = response[162:];
+        address recoveryAddress = _bytesToAddress(response[32:52]);
+        bytes memory walletSignature = response[52:117];
+        bytes memory didSiganture = response[117:182];
+        bytes memory didHex = response[182:];
 
         // Hash the DID and the counterfactual Smart Wallet
         bytes32 didMsg = keccak256(abi.encodePacked(string(didHex)));
         address didSigner = _recoverSigner(didMsg, didSiganture);
         
         // Hash the entry point, the DID signer (counterfactual smart wallet owner) and the salt.
-        bytes32 walletMsg = keccak256(abi.encodePacked(pki, didSigner, saltBytes));
+        bytes32 walletMsg = keccak256(abi.encodePacked(pki, recoveryAddress, didSigner, saltBytes));
 
         // Recover the signer of the counterfactual Smart Wallet
         address walletSigner = _recoverSigner(walletMsg, walletSignature);
 
         // Check that the same signer signed both the DID and the counterfactual Smart Wallet
-        // REPLACE WITH RECOVERY ADDRESS INPUT
-        address walletComputed = computeAddress(address(0x0), didSigner, _bytesToUint256(saltBytes));
+        address walletComputed = computeAddress(recoveryAddress, didSigner, _bytesToUint256(saltBytes));
         require(walletComputed == _bytesToAddress(wallet), "INVALID WALLET ADDRESS");
 
         // Check that the signer of the Smart Wallet is the same as the signer of the DID
