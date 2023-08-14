@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.8.19;
+pragma solidity 0.8.4;
 
 contract OwnerManager {
 
     /*//////////////////////////////////////////////////////////////////////////
                                    PUBLIC STORAGE
     //////////////////////////////////////////////////////////////////////////*/
-    
+    address public recovery;
     uint256 internal ownerCount;
     mapping(address => bool) public owner;
 
@@ -22,7 +22,8 @@ contract OwnerManager {
                                      CONSTRUCTOR
     //////////////////////////////////////////////////////////////////////////*/
 
-    constructor(address _owner) {
+    constructor(address _recovery, address _owner) {
+        recovery = _recovery;
         _addOwner(_owner);
     }
 
@@ -37,6 +38,15 @@ contract OwnerManager {
     /*//////////////////////////////////////////////////////////////////////////
                                     WRITE FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
+
+    function recover (
+        address currentOwner,
+        address newOwner
+    ) external {
+        require(msg.sender == recovery, "OwnerManager: sender is not recovery agent");
+        _removeOwner(currentOwner);
+        _addOwner(newOwner);
+    }
 
     function addOwner(address target) external {
         _isOwnerOrEntryPoint();
@@ -53,17 +63,19 @@ contract OwnerManager {
     //////////////////////////////////////////////////////////////////////////*/
 
     function _isOwner(address target) internal view returns (bool) {
-        return ownerCount > 0 && target == address(this);
+        return owner[target];
     }
 
     function _addOwner(address target) internal {
         require(!_isOwner(target), "OwnerManager: target is already an owner");
+        owner[target] = true;
         ownerCount++;
         emit AddedOwner(target);
     }
 
     function _removeOwner(address target) internal {
         require(_isOwner(target), "OwnerManager: target is not an owner");
+        owner[target] = false;
         ownerCount--;
         emit RemovedOwner(target);
     }

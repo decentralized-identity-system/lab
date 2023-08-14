@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.19;
+pragma solidity 0.8.4;
 
-import "hardhat/console.sol";
 import { Wallet } from "./Wallet.sol";
 import {IWalletFactory} from "./interfaces/IWalletFactory.sol";
 import {Create2} from "./utils/Create2.sol";
@@ -39,7 +38,7 @@ contract PKI is IWalletFactory {
         return size > 0;
     }
 
-    function computeAddress(address walletOwner, uint256 salt)
+    function computeAddress(address recovery, address walletOwner, uint256 salt)
         public
         view
         override
@@ -47,7 +46,7 @@ contract PKI is IWalletFactory {
     {
         return Create2.computeAddress(
             bytes32(salt),
-            keccak256(abi.encodePacked(type(Wallet).creationCode, abi.encode(ENTRYPOINT, address(this), walletOwner, urls)))
+            keccak256(abi.encodePacked(type(Wallet).creationCode, abi.encode(ENTRYPOINT, address(this), recovery, walletOwner, urls)))
         );
     }
 
@@ -71,10 +70,8 @@ contract PKI is IWalletFactory {
                 abi.encodePacked(pki, wallet)
             );
         } else {
-            console.log('WALLET EXISTS');
             Wallet _wallet = Wallet(payable(wallet));
             string[] memory __urls = _wallet.urls();
-            console.log('URLS');
             revert OffchainLookup(
                 address(this),
                 __urls,
@@ -107,7 +104,8 @@ contract PKI is IWalletFactory {
         address walletSigner = _recoverSigner(walletMsg, walletSignature);
 
         // Check that the same signer signed both the DID and the counterfactual Smart Wallet
-        address walletComputed = computeAddress(didSigner, _bytesToUint256(saltBytes));
+        // REPLACE WITH RECOVERY ADDRESS INPUT
+        address walletComputed = computeAddress(address(0x0), didSigner, _bytesToUint256(saltBytes));
         require(walletComputed == _bytesToAddress(wallet), "INVALID WALLET ADDRESS");
 
         // Check that the signer of the Smart Wallet is the same as the signer of the DID
@@ -125,7 +123,6 @@ contract PKI is IWalletFactory {
         bytes memory didHex = bytes(response[65:]);
         bytes32 msgHash2 = keccak256(abi.encodePacked(string(didHex)));
         address signer = _recoverSigner(msgHash2, msgSignature);
-
         Wallet _wallet = Wallet(payable(_bytesToAddress(wallet)));
         require(_wallet.isOwner(signer), "INVALID SIGNATURE");
         return string(didHex);
@@ -134,12 +131,12 @@ contract PKI is IWalletFactory {
     /*//////////////////////////////////////////////////////////////////////////
                                     WRITE FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
-    function deployWallet(address walletOwner, uint256 salt)
+    function deployWallet(address recovery, address walletOwner, uint256 salt)
         external
         override
         returns (Wallet)
     {
-        address walletAddress = computeAddress(walletOwner, salt);
+        address walletAddress = computeAddress(recovery, walletOwner, salt);
 
         // Determine if a wallet is already deployed at this address, if so return that
         uint256 codeSize = walletAddress.code.length;
@@ -149,7 +146,7 @@ contract PKI is IWalletFactory {
             // Deploy the wallet
             // string[] memory __urls = new string[](1);
             // __urls[0] = urls[0];
-            Wallet wallet = new Wallet{salt: bytes32(salt)}(ENTRYPOINT, address(this), walletOwner, urls);
+            Wallet wallet = new Wallet{salt: bytes32(salt)}(ENTRYPOINT, address(this), recovery, walletOwner, urls);
             return wallet;
         }
     }

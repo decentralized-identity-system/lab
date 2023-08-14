@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.8.19;
+pragma solidity 0.8.4;
 
 import { Identifier } from "./Identifier.sol";
 
@@ -14,7 +14,7 @@ contract Wallet is Identifier {
                                     CONSTRUCTOR
     //////////////////////////////////////////////////////////////////////////*/
 
-    constructor(address _entry, address _pki, address _owner, string[] memory __urls) Identifier(_owner, __urls) {
+    constructor(address _entry, address _pki, address _recovery, address _owner, string[] memory __urls) Identifier(_recovery, _owner, __urls) {
         ENTRYPOINT = _entry;
         PKI = _pki;
     }
@@ -29,6 +29,10 @@ contract Wallet is Identifier {
     /*//////////////////////////////////////////////////////////////////////////
                                 PUBLIC FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
+    function setEntry(address _entry) external {
+        ENTRYPOINT = _entry;
+    }
+
     function execute(
         address dest,
         uint256 value,
@@ -38,11 +42,6 @@ contract Wallet is Identifier {
         _call(dest, value, func);
     }
     
-
-    function setEntry(address _entry) external {
-        ENTRYPOINT = _entry;
-    }
-
     /*//////////////////////////////////////////////////////////////////////////
                            INTERNAL CONSTANT FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
@@ -64,26 +63,4 @@ contract Wallet is Identifier {
             }
         }
     }
-
-    function _stringToAddress(string memory _str) internal pure returns (address) {
-        bytes memory strBytes = bytes(_str);
-        require(strBytes.length == 42, "Invalid address length");
-
-        uint256 result = 0;
-        for (uint256 i = 0; i < 40; i++) {
-            uint256 charValue = uint256(uint8(strBytes[i + 2])); // Skip '0x' prefix
-            if (charValue >= 48 && charValue <= 57) {
-                charValue -= 48;
-            } else if (charValue >= 65 && charValue <= 70) {
-                charValue -= 55;
-            } else if (charValue >= 97 && charValue <= 102) {
-                charValue -= 87;
-            } else {
-                revert("Invalid character in address");
-            }
-            result = result * 16 + charValue;
-        }
-        return address(uint160(result));
-    }
-
 }

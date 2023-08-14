@@ -7,7 +7,7 @@ const { provider } = ethers;
 const { getSigners } = ethers;
 const ABI_CODER = new ethers.utils.AbiCoder();
 
-describe.only('Wallet', () => {
+describe('Wallet', () => {
   // Signers
   let wallet0: SignerWithAddress;
   let wallet1: SignerWithAddress;
@@ -27,7 +27,7 @@ describe.only('Wallet', () => {
   // DID Document Object using Wallet0 address
   let DID = {
     '@context': 'https://www.w3.org/ns/did/v1',
-    id: 'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x222C85A30f43EeE92C5D2BFD41771F4Bce76826e',
+    id: 'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x9B52301d9467D49e40Fcb7dFc4b1766DFEFCd007',
   };
 
   before(async () => {

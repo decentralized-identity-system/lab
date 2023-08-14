@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.19;
+pragma solidity 0.8.4;
 
 import "hardhat/console.sol";
-import { OwnerManager } from "./wallet/OwnerManager.sol";
+import { OwnerManager } from "./OwnerManager.sol";
 import { Shared } from "./Shared.sol";
 
 contract Identifier is OwnerManager, Shared {
@@ -22,7 +22,7 @@ contract Identifier is OwnerManager, Shared {
                                     CONSTRUCTOR
     //////////////////////////////////////////////////////////////////////////*/
     
-    constructor(address _owner, string[] memory __urls) OwnerManager(_owner) {
+    constructor(address _recovery, address _owner, string[] memory __urls) OwnerManager(_recovery, _owner) {
         for (uint256 i = 0; i < __urls.length; i++) {
             _urls.push(__urls[i]);
         }
@@ -46,14 +46,14 @@ contract Identifier is OwnerManager, Shared {
 
     function setUrls(string[] memory __urls) external {
         // Clear existing URLs
-        for (uint256 i = 0; i < _urls.length; i++) {
-            delete _urls[i];
+        while (_urls.length > 0) {
+            _urls.pop();
         }
-
+        
         // Add new URLs
-        for (uint256 k = 0; k < __urls.length; k++) {
-            console.log(__urls[k]);
-            _urls.push(__urls[k]);
+        for (uint256 i = 0; i < __urls.length; i++) {
+
+            _urls.push(__urls[i]);
         }
     }
 
@@ -73,6 +73,7 @@ contract Identifier is OwnerManager, Shared {
         bytes memory didHex = bytes(response[65:]);
         bytes32 msgHash2 = keccak256(abi.encodePacked(string(didHex)));
         address signer = _recoverSigner(msgHash2, msgSignature);
+        console.log(signer, "SIGNER");
         require(owner[signer], "INVALID SIGNATURE");
         return string(didHex);
     }
