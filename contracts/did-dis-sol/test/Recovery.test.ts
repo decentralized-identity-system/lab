@@ -96,7 +96,27 @@ describe('Recovery', () => {
     // Wallet = await WalletFactory.deploy(ethers.constants.AddressZero, PKI.address, wallet0.address, [URL_MATERIALIZED],);
   });
 
-  describe('function did() external view', () => {
+  describe('function addGuardianFromCounterfactualWallet(address pki, uint256 salt, uint256 identityCommitment, bytes calldata ownerSignture)', () => {
+    it('should SUCCEED to recover Smart Wallet using Recovery', async () => {
+      // Generate Identity
+      const groupCreateSignature = await wallet0.signMessage(ethers.utils.arrayify(ethers.utils.solidityKeccak256(["address", "uint256"], [PKI.address, SALT_ONE])));
+      await Recovery.createGuardianGroupFromCounterfactualWallet(PKI.address, SALT_ONE, groupCreateSignature);
+
+      // Generate Identity
+      const identity = new Identity(TOP_SECRET_MESSAGE)
+      const commitment = identity.commitment.toString()
+
+      // Generate Signature
+      const commitmentSignature = await wallet0.signMessage(ethers.utils.arrayify(ethers.utils.solidityKeccak256(["uint256"], [commitment])));
+
+      const recovery = (await ethers.getContractAt('Recovery', Recovery.address)).connect(wallet0);
+      const groupCreated = recovery.addGuardianFromCounterfactualWallet(PKI.address, SALT_ONE, commitment, commitmentSignature)
+      await expect(groupCreated)
+        .to.emit(Recovery, "GuardianAdded")
+    });
+  });
+
+  describe('function recoverWallet(uint256 merkleTreeRoot, uint256 signal, uint256 nullifierHash, uint256[8] calldata proof, Wallet wallet, address oldOwner, address newOwner) ', () => {
     it('should SUCCEED to recover Smart Wallet using Recovery', async () => {
       // constructor(address _entry, address _pki, address _recovery, address _owner, string[] memory __urls)
       const wallet = await WalletFactory.deploy(ENTRYPOINT, PKI.address, Recovery.address, wallet0.address, [URL_MATERIALIZED]);
