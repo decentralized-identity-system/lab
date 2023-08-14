@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.19;
 
-contract Recovery {
+contract Template {
     /*//////////////////////////////////////////////////////////////////////////
                                    PUBLIC STORAGE
     //////////////////////////////////////////////////////////////////////////*/
-
 
     /*//////////////////////////////////////////////////////////////////////////
                                     ERROR EVENTS
@@ -22,23 +21,10 @@ contract Recovery {
     /*//////////////////////////////////////////////////////////////////////////
                                     PUBLIC FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
-    function isWallet(address target) external view returns (bool) {
-        return _isWallet(target);
-    }
 
-    function recoverWallet(address target, address[] memory oldOwners, address[] memory newOwners) external {
-        require(_isWallet(target), "Recovery: target is not a wallet");
-
-    }
     /*//////////////////////////////////////////////////////////////////////////
                                     INTERNAL FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
-
-    function _isWallet(address target) internal view returns (bool) {
-        uint256 size;
-        assembly { size := extcodesize(target) }
-        return size > 0;
-    }
 
    
 }

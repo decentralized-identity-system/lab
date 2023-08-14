@@ -26,7 +26,7 @@ describe.only('PublicKeyInfrastructure', () => {
 
   // DID Document Object
   const DID_ID =
-    'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x0cFd869c63b828C28b758A7a96B15E62Be013a22';
+    'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x222C85A30f43EeE92C5D2BFD41771F4Bce76826e';
   const DID = {
     '@context': 'https://www.w3.org/ns/did/v1',
     id: DID_ID,
@@ -41,14 +41,14 @@ describe.only('PublicKeyInfrastructure', () => {
      * Uncomment the lines below to get the values needed for the `identity-hub-test-server` module.
      */
 
-    // const did_hash = ethers.utils.solidityKeccak256(["string"], [JSON.stringify(DID)])
-    // const did_signature = await wallet0.signMessage(ethers.utils.arrayify(did_hash))
-    // const walletSignature = await wallet0.signMessage(ethers.utils.arrayify(ethers.utils.solidityKeccak256(["address", "address", "uint256"], [PKI.address, wallet0.address, SALT_ONE])));
-    // const walletAddress = await PKI.computeAddress(wallet0.address, SALT_ONE);
-    // console.log(PKI.address, 'PKI.address')
-    // console.log(did_signature, 'did_signature')
-    // console.log(walletSignature, 'walletSignature')
-    // console.log(walletAddress, 'address')
+    const did_hash = ethers.utils.solidityKeccak256(["string"], [JSON.stringify(DID)])
+    const did_signature = await wallet0.signMessage(ethers.utils.arrayify(did_hash))
+    const walletSignature = await wallet0.signMessage(ethers.utils.arrayify(ethers.utils.solidityKeccak256(["address", "address", "uint256"], [PKI.address, wallet0.address, SALT_ONE])));
+    const walletAddress = await PKI.computeAddress(wallet0.address, SALT_ONE);
+    console.log(PKI.address, 'PKI.address')
+    console.log(did_signature, 'did_signature')
+    console.log(walletSignature, 'walletSignature')
+    console.log(walletAddress, 'address')
   });
 
   beforeEach(async () => {
@@ -72,14 +72,16 @@ describe.only('PublicKeyInfrastructure', () => {
       await PKI.deployWallet(wallet0.address, SALT_ONE);
 
       const wallet = (await ethers.getContractAt('Wallet', address)).connect(wallet0);
-
+      
       await wallet.setUrls([URL_MATERIALIZED]);
-
+      console.log(wallet.address, 'wallet.address')
       const data = await provider.call({
         to: PKI.address,
         data: PKI.interface.encodeFunctionData('did', [DID_ID]),
         ccipReadEnabled: true,
       });
+
+      console.log(data, 'datadata')
 
       const [decoded] = ABI_CODER.decode(['string'], data);
       const DID_OBJECT = JSON.parse(decoded);
@@ -90,7 +92,7 @@ describe.only('PublicKeyInfrastructure', () => {
   describe('computeAddress(address entryPoint, address walletOwner, uint256 salt)', () => {
     it('should SUCCEED to get compute a future Smart Wallet address', async () => {
       const address = await PKI.computeAddress(wallet0.address, SALT_ONE);
-      expect(address).to.equal('0x0cFd869c63b828C28b758A7a96B15E62Be013a22');
+      expect(address).to.equal('0x222C85A30f43EeE92C5D2BFD41771F4Bce76826e');
     });
   });
 

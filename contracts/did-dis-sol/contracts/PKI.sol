@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.19;
 
-// import "hardhat/console.sol";
-import {Wallet} from "./Wallet.sol";
+import "hardhat/console.sol";
+import { Wallet } from "./Wallet.sol";
 import {IWalletFactory} from "./interfaces/IWalletFactory.sol";
 import {Create2} from "./utils/Create2.sol";
 
@@ -71,8 +71,10 @@ contract PKI is IWalletFactory {
                 abi.encodePacked(pki, wallet)
             );
         } else {
+            console.log('WALLET EXISTS');
             Wallet _wallet = Wallet(payable(wallet));
             string[] memory __urls = _wallet.urls();
+            console.log('URLS');
             revert OffchainLookup(
                 address(this),
                 __urls,

@@ -27,7 +27,7 @@ describe.only('Wallet', () => {
   // DID Document Object using Wallet0 address
   let DID = {
     '@context': 'https://www.w3.org/ns/did/v1',
-    id: 'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x0cFd869c63b828C28b758A7a96B15E62Be013a22',
+    id: 'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x222C85A30f43EeE92C5D2BFD41771F4Bce76826e',
   };
 
   before(async () => {
