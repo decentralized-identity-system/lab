@@ -16,7 +16,6 @@ describe('Wallet', () => {
   // Recovery Constants
   const RECOVERY = '0xdEAD000000000000000042069420694206942069';
 
-
   // Signers
   let wallet0: SignerWithAddress;
   let wallet1: SignerWithAddress;
