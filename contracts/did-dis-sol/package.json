@@ -22,11 +22,11 @@
     "format": "prettier --config .prettierrc --write \"**/*.{ts,js}\" \"contracts/**/*.sol\"",
     "hint": "solhint \"contracts/**/*.sol\"",
     "remove-logs": "hardhat remove-logs",
-    "test": "yarn clean && HIDE_DEPLOY_LOG=true OPTIMIZER_DISABLED=true hardhat test",
+    "test": "pnpm clean && HIDE_DEPLOY_LOG=true OPTIMIZER_DISABLED=true hardhat test",
     "test:fast": "HIDE_DEPLOY_LOG=true OPTIMIZER_DISABLED=true hardhat test",
     "typechain": "typechain --target=ethers-v5 \"./abis/*.json\" --out-dir \"./types\"",
-    "prepack": "yarn compile",
-    "prepare": "husky install"
+    "prepack": "pnpm compile",
+    "prepare": "cd ../.. && husky install contracts/did-dis-sol/.husky"
   },
   "devDependencies": {
     "@ethersproject/abi": "5.6.1",
@@ -58,7 +58,7 @@
     "hardhat-log-remover": "2.0.2",
     "husky": "^8.0.1",
     "node-fetch": "^2.6.1",
-    "prettier": "^2.6.2",
+    "prettier": "^2.8.8",
     "prettier-plugin-solidity": "1.0.0-beta.19",
     "solc": "0.8.13",
     "solhint": "3.3.6",

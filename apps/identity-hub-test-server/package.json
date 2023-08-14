@@ -13,14 +13,14 @@
         "build-ts": "tsc",
         "watch-ts": "tsc -w",
         "lint": "eslint src/*.ts",
-        "lint-fix": "yarn lint --fix",
+        "lint-fix": "pnpm lint --fix",
         "debug": "npm run build && npm run watch-debug",
         "serve-debug": "nodemon --inspect dist/server.js",
         "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
         "typecheck": "tsc --noEmit",
         "run-prettier": "prettier src/*.ts",
-        "validate-prettiness": "yarn run-prettier -c",
-        "make-prettier": "yarn run-prettier --write"
+        "validate-prettiness": "pnpm run-prettier -c",
+        "make-prettier": "pnpm run-prettier --write"
     },
     "author": "",
     "license": "ISC",
