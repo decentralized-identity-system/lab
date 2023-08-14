@@ -42,7 +42,7 @@ describe('Wallet', () => {
 
   describe('function execute(address dest, uint256 value, bytes calldata func)', () => {
     it('should SUCCEED to execute a transaction from Smart Wallet owner', async () => {
-      expect(false)
+      expect(false).to.be.true;
     });
   });
 });

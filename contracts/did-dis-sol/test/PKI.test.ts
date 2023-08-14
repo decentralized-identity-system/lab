@@ -1,7 +1,7 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { Contract, ContractFactory } from 'ethers';
-import hre, { ethers } from 'hardhat';
+import { ethers } from 'hardhat';
 
 const { provider } = ethers;
 const { getSigners } = ethers;
@@ -28,43 +28,42 @@ describe('PublicKeyInfrastructure', () => {
   let PKI: Contract;
   let PKIFactory: ContractFactory;
 
-
   // DID Document Object
-  const DID_ID =
-    'did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0xc809050143d31d20dDf7bcbA132bfA30120c92A1';
-  const DID = {
-    '@context': 'https://www.w3.org/ns/did/v1',
-    id: DID_ID,
-  };
+  let ID = ""
+  let DID = { '@context': 'https://www.w3.org/ns/did/v1', id: ''};
+
   before(async () => {
     [wallet0, wallet1] = await getSigners();
     PKIFactory = await ethers.getContractFactory('PKI');
     PKI = await PKIFactory.deploy(ENTRYPOINT, [URL_COUNTERFACTUAL]);
+    const walletAddress = await PKI.computeAddress(RECOVERY, wallet0.address, SALT_ONE);
+
+    // Construct DID Document
+    ID = `did:dis:10:${PKI.address}:${walletAddress}`;
+    DID.id = ID;
 
     /**
      * HACKY WAY TO GENERATE DATA for Identity Hub test server
      * Uncomment the lines below to get the values needed for the `identity-hub-test-server` module.
+     * 
+     * TODO: Automatically sync the DID Document with the Identity Hub test server.
+     *       We can probably just create simple script that writes the output to a file.
      */
-
+    
     // const did_hash = ethers.utils.solidityKeccak256(["string"], [JSON.stringify(DID)])
     // const did_signature = await wallet0.signMessage(ethers.utils.arrayify(did_hash))
     // const walletSignature = await wallet0.signMessage(ethers.utils.arrayify(ethers.utils.solidityKeccak256(["address", "address", "address", "uint256"], [PKI.address, RECOVERY, wallet0.address, SALT_ONE])));
-    // const walletAddress = await PKI.computeAddress(RECOVERY,wallet0.address, SALT_ONE);
     // console.log(PKI.address, 'PKI.address')
+    // console.log(walletAddress, 'address')
     // console.log(did_signature, 'did_signature')
     // console.log(walletSignature, 'walletSignature')
-    // console.log(walletAddress, 'address')
-  });
-
-  beforeEach(async () => {
-    // await hre.network.provider.send("hardhat_reset")
   });
 
   describe('function did(string calldata id) external view', () => {
     it('should SUCCEED to resolve a DID document via a counterfactual Smart Wallet', async () => {
       const data = await provider.call({
         to: PKI.address,
-        data: PKI.interface.encodeFunctionData('did', [DID_ID]),
+        data: PKI.interface.encodeFunctionData('did', [ID]),
         ccipReadEnabled: true,
       });
       const [decoded] = ABI_CODER.decode(['string'], data);
@@ -79,7 +78,7 @@ describe('PublicKeyInfrastructure', () => {
       await wallet.setUrls([URL_MATERIALIZED]);
       const data = await provider.call({
         to: PKI.address,
-        data: PKI.interface.encodeFunctionData('did', [DID_ID]),
+        data: PKI.interface.encodeFunctionData('did', [ID]),
         ccipReadEnabled: true,
       });
 

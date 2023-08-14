@@ -120,6 +120,7 @@ contract PKI is IWalletFactory {
     function resolve(bytes calldata response, bytes calldata extraData) external view virtual returns (string memory DID) {
         // Stateful Response from the `did` method
         bytes memory pki = extraData[0:20];
+        require(_bytesToAddress(pki) == address(this), "PKI: The DID document is not managed by this resolver");
         bytes memory wallet = extraData[20:40];
 
         // Reponse from Offchain Data Storage
