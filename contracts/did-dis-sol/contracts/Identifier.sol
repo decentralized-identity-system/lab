@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.19;
 
+import "hardhat/console.sol";
 import { OwnerManager } from "./wallet/OwnerManager.sol";
 import { Shared } from "./Shared.sol";
 
@@ -50,8 +51,9 @@ contract Identifier is OwnerManager, Shared {
         }
 
         // Add new URLs
-        for (uint256 i = 0; i < __urls.length; i++) {
-            _urls.push(__urls[i]);
+        for (uint256 k = 0; k < __urls.length; k++) {
+            console.log(__urls[k]);
+            _urls.push(__urls[k]);
         }
     }
 

@@ -72,9 +72,11 @@ describe.only('PublicKeyInfrastructure', () => {
       await PKI.deployWallet(wallet0.address, SALT_ONE);
 
       const wallet = (await ethers.getContractAt('Wallet', address)).connect(wallet0);
+      console.log(await wallet.urls());
       
-      await wallet.setUrls([URL_MATERIALIZED]);
+      await wallet.setUrls([URL_MATERIALIZED, URL_MATERIALIZED]);
       console.log(wallet.address, 'wallet.address')
+      console.log(await wallet.urls());
       const data = await provider.call({
         to: PKI.address,
         data: PKI.interface.encodeFunctionData('did', [DID_ID]),
