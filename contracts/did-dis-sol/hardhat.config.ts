@@ -26,9 +26,6 @@ const config: HardhatUserConfig = {
     outDir: 'types',
     target: 'ethers-v5',
   },
-  dependencyCompiler: {
-    paths: [],
-  },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
@@ -49,14 +46,42 @@ const config: HardhatUserConfig = {
   },
   networks,
   solidity: {
-    version: '0.8.19',
-    settings: {
-      optimizer: {
-        enabled: optimizerEnabled,
-        runs: 200,
+    compilers: [
+      {
+        version: '0.8.4',
+        settings: {
+          optimizer: {
+            enabled: optimizerEnabled,
+            runs: 200,
+          },
+        },
       },
-      evmVersion: 'london',
-    },
+      {
+        version: '0.8.19',
+        settings: {
+          optimizer: {
+            enabled: optimizerEnabled,
+            runs: 200,
+          },
+          evmVersion: 'london',
+        },
+      }
+    ]
+  },
+  // external: {
+  //   contracts: [
+  //       {
+  //           artifacts: 'node_modules/@semaphore-protocol/contracts/artifacts',
+  //       },
+  //   ],
+  // },
+  dependencyCompiler: {
+      paths: [
+          '@semaphore-protocol/contracts/base/Pairing.sol',
+          '@semaphore-protocol/contracts/base/SemaphoreGroups.sol',
+          '@semaphore-protocol/contracts/base/SemaphoreVerifier.sol',
+          '@semaphore-protocol/contracts/Semaphore.sol',
+      ],
   },
 };
 

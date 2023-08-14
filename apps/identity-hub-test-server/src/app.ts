@@ -12,9 +12,9 @@ export const app = express();
   // DID Document Object
 let DID = {
     '@context': 'https://www.w3.org/ns/did/v1',
-    id: "did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x0cFd869c63b828C28b758A7a96B15E62Be013a22"
+    id: "did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x222C85A30f43EeE92C5D2BFD41771F4Bce76826e"
 }
-const signatureDID = "0xcf92ef8fd2fa567bae2508e0d3a63d46427efc86453b17c158532567ee7caf557056143a1fb825171cb3e2b41a5f6d7cc4a965146234ecf9a53e3cf54e689f841c"
+const signatureDID = "0x6e6dca231487752dcf6402b5252055bf0a10bef4c8f30775664cacb6fa405b016c1cb99ab25136fa54927928302f49cddfa51d302a1afd218c59bfc52c7547681c"
 const signatureWallet = "0xab856af405d43f66dc003d335cec2889a4dfeb46b8dd2b9d9d1d4159f61b1ab32f4d5bb5bd51f05c9d1011b26d53408206fc2c4cf8adacd0d186ed125c5f430e1c"
 
 // Express configuration
@@ -38,6 +38,7 @@ app.get('/counterfactual/*', (req, res) => {
 })
 
 app.get('/materialized/*', (req, res) => {
+    console.log('WTF')
     const bytes = ethers.utils.toUtf8Bytes(JSON.stringify(DID));
     const hexValue = ethers.utils.hexlify(bytes);
     const msg = ethers.utils.solidityPack(['bytes', 'bytes'], [signatureDID, hexValue]);
