@@ -12,11 +12,11 @@ export const app = express();
   // DID Document Object
 let DID = {
     '@context': 'https://www.w3.org/ns/did/v1',
-    id: "did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0x222C85A30f43EeE92C5D2BFD41771F4Bce76826e"
+    id: "did:dis:10:0x5FbDB2315678afecb367f032d93F642f64180aa3:0xc809050143d31d20dDf7bcbA132bfA30120c92A1"
 }
-const signatureDID = "0x6e6dca231487752dcf6402b5252055bf0a10bef4c8f30775664cacb6fa405b016c1cb99ab25136fa54927928302f49cddfa51d302a1afd218c59bfc52c7547681c"
-const signatureWallet = "0xab856af405d43f66dc003d335cec2889a4dfeb46b8dd2b9d9d1d4159f61b1ab32f4d5bb5bd51f05c9d1011b26d53408206fc2c4cf8adacd0d186ed125c5f430e1c"
-
+const signatureDID = "0x8896911c3104076384499f4c8e055825a4e8ce9830ddd8552ad0cc2b1175fe342d51370b83165df2c8b3e913649646ee446eeabb3d93cb185d80a9a91367c49a1c"
+const signatureWallet = "0xda75ef26af4047bc4c6a943d25dada93bcae7849ff08ab81411b46492d1900b0057a0591732f820b8b4d2cc2eedb61f9d8a06ad2492ab85f13f2d3c5e93593151b"
+const RECOVERY = '0xdEAD000000000000000042069420694206942069';
 // Express configuration
 app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
@@ -31,7 +31,7 @@ app.get('/counterfactual/*', (req, res) => {
     const bytes = ethers.utils.toUtf8Bytes(JSON.stringify(DID));
     const hexValue = ethers.utils.hexlify(bytes);
     const salt = "1";
-    const msg = ethers.utils.solidityPack(['uint256', 'bytes', 'bytes', 'bytes'], [BigNumber.from(salt), signatureWallet, signatureDID, hexValue]);
+    const msg = ethers.utils.solidityPack(['uint256', 'address', 'bytes', 'bytes', 'bytes'], [BigNumber.from(salt), RECOVERY, signatureWallet, signatureDID, hexValue]);
     res.json({
         data: msg
     });
