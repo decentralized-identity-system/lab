@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -11,12 +12,11 @@ datasource db {
   relationMode = "prisma"
 }
 
-model DIS {
+model Dis {
   did             String @id
-  content         String
-  hexDid          String @unique
+  didDocument     Json
+  hexDid          String @db.Text
   salt            String
   signatureWallet String
   signatureDid    String
-  didDocument     Json
 }
