@@ -2,7 +2,7 @@ import { app } from "./app";
 
 const port = app.get("port");
 
-const server = app.listen(port, onListening);
+const server = app.listen(port, "0.0.0.0", onListening);
 server.on("error", onError);
 
 function onError(error: NodeJS.ErrnoException) {
@@ -17,11 +17,9 @@ function onError(error: NodeJS.ErrnoException) {
         case "EACCES":
             console.error(`${bind} requires elevated privileges`);
             process.exit(1);
-            break;
         case "EADDRINUSE":
             console.error(`${bind} is already in use`);
             process.exit(1);
-            break;
         default:
             throw error;
     }
