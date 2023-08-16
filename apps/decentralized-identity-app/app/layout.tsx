@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <html suppressHydrationWarning className={`${sfPro.variable} ${raleway.variable}`} lang="en">
-        <body className={cn('min-h-screen bg-white font-sans text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-50', fontSans.variable)}>
+        <body className={cn('min-h-screen bg-white font-sans text-slate-900 antialiased', fontSans.variable)}>
           <RootProvider>{children}</RootProvider>
         </body>
       </html>

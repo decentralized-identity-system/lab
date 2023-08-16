@@ -61,6 +61,22 @@ module.exports = {
         },
       },
       colors: {
+        primary: {
+          DEFAULT: 'rgb(var(--color-primary))',
+          foreground: 'rgb(var(--color-primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'rgb(var(--color-secondary))',
+          foreground: 'rgb(var(--color-secondary-foreground))',
+        },
+        tertiary: {
+          DEFAULT: 'rgb(var(--color-tertiary))',
+          foreground: 'rgb(var(--color-tertiary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'rgb(var(--color-destructive))',
+          foreground: 'rgb(var(--color-destructive-foreground))',
+        },
         gray: {
           100: '#f7fafc',
           200: '#edf2f7',

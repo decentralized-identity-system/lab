@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --color-primary: 70 173 21;
+    --color-primary-foreground: 255 255 255;
+
+    --color-secondary: 0 0 0;
+    --color-secondary-foreground: 255 255 255;
+
+    --color-tertiary: 89 89 89;
+    --color-tertiary-foreground: 0 0 0;
+
+    --color-destructive: 255 69 58;
+    --color-destructive-foreground: 255 255 255;
+  }
+}
+
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
@@ -104,7 +120,7 @@ body {
 
 [data-theme='dark'] .colormode .lds-dual-ring:after {
   border: 6px solid #fff !important;
-  border-color: #fff transparent #fff transparent !important;
+  border-color: #3e3e3e transparent #fff transparent !important;
 }
 
 @keyframes lds-dual-ring {
