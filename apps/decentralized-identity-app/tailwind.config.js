@@ -73,6 +73,10 @@ module.exports = {
           DEFAULT: 'rgb(var(--color-tertiary))',
           foreground: 'rgb(var(--color-tertiary-foreground))',
         },
+        action: {
+          DEFAULT: 'rgb(var(--color-action))',
+          foreground: 'rgb(var(--color-action-foreground))',
+        },
         destructive: {
           DEFAULT: 'rgb(var(--color-destructive))',
           foreground: 'rgb(var(--color-destructive-foreground))',

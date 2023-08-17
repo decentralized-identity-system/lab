@@ -36,7 +36,7 @@ export function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="sm" variant="ghost">
+        <Button size="sm">
           <IsLightTheme>
             <Icons.sun className="h-6 w-6 hover:text-slate-900" />
           </IsLightTheme>

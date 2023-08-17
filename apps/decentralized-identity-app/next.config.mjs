@@ -4,7 +4,7 @@ import './env.mjs'
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['avatars.githubusercontent.com', 'images.unsplash.com', 'cloudflare-ipfs.com'],
+    domains: ['avatars.githubusercontent.com', 'images.unsplash.com', 'cloudflare-ipfs.com', 'cdn.stamp.fyi'],
   },
   env: {
     mode: process.env.NODE_ENV,
