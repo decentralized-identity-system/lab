@@ -42,17 +42,20 @@ export function CommitSignaturesView({ didIdRef, onPageChange }: CommitSignature
     },
   })
 
+  const didDocument = useMemo(
+    () => constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain?.id, walletAddress, eoaAddress: address }),
+    [chain?.id, walletAddress, address]
+  )
+
   const {
     isError,
     isLoading,
     mutate: commitSignatures,
   } = useCommitSignatures({
     commitPayload: {
-      did: constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain?.id, walletAddress }).id,
-      didDocument: constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain?.id, walletAddress }),
-      hexDid: keccak256(
-        encodePacked(['string'], [JSON.stringify(constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain?.id, walletAddress }))])
-      ),
+      did: didDocument.id,
+      didDocument: didDocument,
+      hexDid: keccak256(encodePacked(['string'], [JSON.stringify(didDocument)])),
       salt: SALT.toString(),
       signatureWallet: signatures.wallet || '',
       signatureDid: signatures.identity || '',
@@ -77,8 +80,7 @@ export function CommitSignaturesView({ didIdRef, onPageChange }: CommitSignature
 
   const handleSignDidMessage = async () => {
     if (!address || !chain) return
-    const DID = constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain.id, walletAddress: walletAddress })
-    const bytesDidMessage = keccak256(encodePacked(['string'], [JSON.stringify(DID)]))
+    const bytesDidMessage = keccak256(encodePacked(['string'], [JSON.stringify(didDocument)]))
     signMessage({ message: bytesDidMessage.toString() })
   }
 
