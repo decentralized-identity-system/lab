@@ -1,33 +1,37 @@
 import { Button, buttonVariants } from '@/components/ui/button'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import type { OnPageChange } from '../types'
 import { cn } from '@/lib/utils'
 import { useAccount, useNetwork, useSignMessage } from 'wagmi'
-import { toBytes, encodePacked, keccak256 } from 'viem'
-import { useState } from 'react'
-import type { Signatures } from '../types'
+import { encodePacked, keccak256 } from 'viem'
+import { useMemo, useState, MutableRefObject } from 'react'
+import type { Signatures, OnPageChange, DidId } from '../types'
 import { useCommitSignatures } from '../hooks/use-commit-signatures'
 import { LinkComponent } from '@/components/shared/link-component'
 import { Card } from '@/components/ui/card'
+import { usePkiComputeAddress } from '@/lib/generated/blockchain'
+import { RECOVERY, PKI_ADDRESS } from '../utils/constants'
+import { generateSalt, constructDidDocument } from '../utils'
 
-const PKI_ADDRESS = '0x1234567890123456789012345678901234567890'
-const ENTRYPOINT = '0x2222222222222222222222222222222222222222'
-const WALLET_ADDRESS = '0x1111111111111111111111111111111111111116'
-const SALT = BigInt(4)
-
-function constructDidDocument({ pkiAddress, chainId, walletAddress }: { pkiAddress: string; chainId: number; walletAddress: string }) {
-  const DID = { '@context': 'https://www.w3.org/ns/did/v1', id: `did:dis:${chainId}:${pkiAddress}:${walletAddress}` }
-  return DID
+interface CommitSignaturesView {
+  didIdRef: MutableRefObject<DidId>
+  onPageChange: OnPageChange
 }
 
-export function CommitSignaturesView({ onPageChange }: { onPageChange: OnPageChange }) {
+export function CommitSignaturesView({ didIdRef, onPageChange }: CommitSignaturesView) {
   const [signatures, setSignatures] = useState<Signatures>({
     wallet: undefined,
     identity: undefined,
   })
-
   const { chain } = useNetwork()
   const { address } = useAccount()
+  const SALT = useMemo(() => generateSalt(), [])
+
+  const { data: walletAddress } = usePkiComputeAddress({
+    address: PKI_ADDRESS,
+    args: address ? [RECOVERY, address, SALT] : undefined,
+    enabled: !!address,
+  })
+
   const { signMessage } = useSignMessage({
     onSuccess: (data) => {
       if (!signatures.wallet) {
@@ -44,30 +48,36 @@ export function CommitSignaturesView({ onPageChange }: { onPageChange: OnPageCha
     mutate: commitSignatures,
   } = useCommitSignatures({
     commitPayload: {
-      did: constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain?.id || 1, walletAddress: WALLET_ADDRESS }).id,
-      didDocument: constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain?.id || 1, walletAddress: WALLET_ADDRESS }),
+      did: constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain?.id, walletAddress }).id,
+      didDocument: constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain?.id, walletAddress }),
       hexDid: keccak256(
-        encodePacked(
-          ['string'],
-          [JSON.stringify(constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain?.id || 1, walletAddress: WALLET_ADDRESS }))]
-        )
+        encodePacked(['string'], [JSON.stringify(constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain?.id, walletAddress }))])
       ),
       salt: SALT.toString(),
       signatureWallet: signatures.wallet || '',
       signatureDid: signatures.identity || '',
     },
-    onSuccess: onPageChange,
+    onSuccess: () => {
+      if (!chain || !walletAddress) return
+      didIdRef.current = {
+        chain: chain?.id,
+        pkiAddress: PKI_ADDRESS,
+        walletAddress: walletAddress,
+        salt: SALT,
+      }
+      onPageChange()
+    },
   })
 
   const handleSignWalletMessage = async () => {
     if (!address) return
-    const bytesWalletMessage = keccak256(encodePacked(['address', 'address', 'address', 'uint256'], [PKI_ADDRESS, ENTRYPOINT, address, SALT]))
+    const bytesWalletMessage = keccak256(encodePacked(['address', 'address', 'address', 'uint256'], [PKI_ADDRESS, RECOVERY, address, SALT]))
     signMessage({ message: bytesWalletMessage })
   }
 
   const handleSignDidMessage = async () => {
     if (!address || !chain) return
-    const DID = constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain.id, walletAddress: WALLET_ADDRESS })
+    const DID = constructDidDocument({ pkiAddress: PKI_ADDRESS, chainId: chain.id, walletAddress: walletAddress })
     const bytesDidMessage = keccak256(encodePacked(['string'], [JSON.stringify(DID)]))
     signMessage({ message: bytesDidMessage.toString() })
   }
@@ -91,7 +101,7 @@ export function CommitSignaturesView({ onPageChange }: { onPageChange: OnPageCha
               </Card>
               <Button
                 onClick={handleSignWalletMessage}
-                disabled={!!signatures.wallet}
+                disabled={!!signatures.wallet || !walletAddress}
                 variant={signatures.wallet ? 'default' : !!signatures.wallet ? 'secondary' : 'action'}
                 className="w-full mt-2">
                 {signatures.wallet ? 'Complete' : 'Sign Commitment'}
@@ -104,7 +114,7 @@ export function CommitSignaturesView({ onPageChange }: { onPageChange: OnPageCha
               </Card>
               <Button
                 onClick={handleSignDidMessage}
-                disabled={!signatures.wallet || !!signatures.identity}
+                disabled={!signatures.wallet || !!signatures.identity || !walletAddress}
                 variant={signatures.identity ? 'default' : !signatures.wallet || !!signatures.identity ? 'secondary' : 'action'}
                 className="w-full mt-2">
                 {signatures.identity ? 'Complete' : 'Sign Commitment'}

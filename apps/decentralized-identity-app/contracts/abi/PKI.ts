@@ -55,6 +55,11 @@ export const PKIAbi = [
     inputs: [
       {
         internalType: 'address',
+        name: 'recovery',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
         name: 'walletOwner',
         type: 'address',
       },
@@ -77,6 +82,11 @@ export const PKIAbi = [
   },
   {
     inputs: [
+      {
+        internalType: 'address',
+        name: 'recovery',
+        type: 'address',
+      },
       {
         internalType: 'address',
         name: 'walletOwner',
@@ -193,6 +203,25 @@ export const PKIAbi = [
         internalType: 'string',
         name: '',
         type: 'string',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'target',
+        type: 'address',
+      },
+    ],
+    name: 'walletExists',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
       },
     ],
     stateMutability: 'view',

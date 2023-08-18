@@ -1,4 +1,4 @@
-import { IDENTITY_HUB_URL } from '@/app/(general)/commit/constants'
+import { IDENTITY_HUB_URL } from '@/app/(general)/commit/utils/constants'
 
 export async function POST(req: Request) {
   try {

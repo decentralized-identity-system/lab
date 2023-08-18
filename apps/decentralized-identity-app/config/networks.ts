@@ -2,13 +2,7 @@
 // Networks
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 import { Chain, configureChains } from 'wagmi'
-import {
-  goerli as goerliNoIcon,
-  mainnet,
-  optimism,
-  optimismGoerli,
-  sepolia as sepoliaNoIcon,
-} from 'wagmi/chains'
+import { goerli as goerliNoIcon, mainnet, optimism, optimismGoerli, sepolia as sepoliaNoIcon } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
@@ -25,7 +19,7 @@ const sepolia = {
 }
 
 export const ETH_CHAINS_TEST = [goerli, sepolia, optimismGoerli]
-export const ETH_CHAINS_PROD = [mainnet, optimism]
+export const ETH_CHAINS_PROD = [mainnet, optimism, sepolia]
 export const ETH_CHAINS_DEV = env.NEXT_PUBLIC_PROD_NETWORKS_DEV === 'true' ? [...ETH_CHAINS_PROD, ...ETH_CHAINS_TEST] : ETH_CHAINS_TEST
 
 export const CHAINS: Chain[] = process.env.NODE_ENV === 'production' ? ETH_CHAINS_PROD : ETH_CHAINS_DEV
