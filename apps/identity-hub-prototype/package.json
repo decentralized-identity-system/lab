@@ -1,35 +1,41 @@
 {
-    "name": "identity-hub-test-server",
+    "name": "identity-hub-prototype",
     "version": "0.0.1",
     "description": "Simple starter template for ExpressJs and TypeScript based on expressjs/generator and TypeScript-Node-Starter",
     "main": "server.js",
     "scripts": {
-        "start": "npm run serve",
+        "start": "node dist/server.js",
         "build": "npm run build-ts",
         "serve": "node dist/server.js",
         "test": "jest --coverage=false --verbose",
         "dev": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+        "migrate:dev": "prisma migrate dev",
+        "migrate:deploy": "prisma migrate deploy",
+        "migrate:status": "prisma migrate status",
+        "generate": "prisma generate",
         "watch-node": "nodemon dist/server.js",
         "build-ts": "tsc",
         "watch-ts": "tsc -w",
         "lint": "eslint src/*.ts",
-        "lint-fix": "pnpm lint --fix",
+        "lint-fix": "yarn lint --fix",
         "debug": "npm run build && npm run watch-debug",
         "serve-debug": "nodemon --inspect dist/server.js",
         "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
         "typecheck": "tsc --noEmit",
         "run-prettier": "prettier src/*.ts",
-        "validate-prettiness": "pnpm run-prettier -c",
-        "make-prettier": "pnpm run-prettier --write"
+        "validate-prettiness": "yarn run-prettier -c",
+        "make-prettier": "yarn run-prettier --write"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@prisma/client": "5.1.1",
         "ethers": "^5.7.2",
         "express": "^4.16.2",
         "http-errors": "^1.7.1",
         "morgan": "^1.9.1",
-        "pug": "^3.0.1"
+        "pug": "^3.0.1",
+        "zod": "^3.22.1"
     },
     "devDependencies": {
         "@types/express": "4.17.17",
@@ -47,8 +53,10 @@
         "jest": "26.6.3",
         "nodemon": "2.0.22",
         "prettier": "2.8.8",
+        "prisma": "5.1.1",
         "supertest": "6.3.3",
         "ts-jest": "26.5.6",
+        "ts-node": "^10.8.1",
         "typescript": "4.9.5"
     }
 }
