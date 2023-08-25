@@ -19,7 +19,7 @@ const sepolia = {
 }
 
 export const ETH_CHAINS_TEST = [hardhat, goerli, sepolia, optimismGoerli]
-export const ETH_CHAINS_PROD = [mainnet, optimism, sepolia]
+export const ETH_CHAINS_PROD = [mainnet, optimism, sepolia, hardhat]
 export const ETH_CHAINS_DEV = env.NEXT_PUBLIC_PROD_NETWORKS_DEV === 'true' ? [...ETH_CHAINS_PROD, ...ETH_CHAINS_TEST] : ETH_CHAINS_TEST
 
 export const CHAINS: Chain[] = process.env.NODE_ENV === 'production' ? ETH_CHAINS_PROD : ETH_CHAINS_DEV
