@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { prisma } from "../lib/prisma";
-import { isAddress } from 'viem' 
+import { isAddress } from "ethers/lib/utils";
 
 interface ResolveRequest extends Request {
     params: {
