@@ -48,12 +48,12 @@ contract Recovery {
                                     WRITE FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
     
-    function createGuardianGroup() external {
+    function createGuardianGroup(address wallet) external {
         require(_isWallet(wallet), "Recovery: Wallet is not materialized");
         semaphore.createGroup(_addressToUint(msg.sender), 20, address(this));
     }
 
-    function addGuardian(uint256 identityCommitment) external {
+    function addGuardian(address wallet, uint256 identityCommitment) external {
         require(_isWallet(wallet), "Recovery: Wallet is not materialized");
         semaphore.addMember(_addressToUint(msg.sender), identityCommitment);
     }
