@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { useAccount, useWaitForTransaction } from 'wagmi'
 import type { OnPageChange, DidId } from '../types'
-import { RECOVERY } from '../utils/constants'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { FaCopy } from 'react-icons/fa'
 import { Card } from '@/components/ui/card'
@@ -9,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { usePkiIsWallet, usePreparePkiDeployWallet, usePkiDeployWallet } from '@/lib/generated/blockchain'
 import { LinkComponent } from '@/components/shared/link-component'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { useGetRecoveryAddress } from '../hooks/use-get-recovery-address'
 
 const truncateAddress = (address: string) => `${address.slice(0, 6)}...${address.slice(-4)}`
 
@@ -24,9 +24,11 @@ export function SmartWalletView({ didId }: SmartWalletViewProps) {
     args: [didId.walletAddress],
   })
 
+  const RECOVERY_ADDRESS = useGetRecoveryAddress()
+
   const { config } = usePreparePkiDeployWallet({
     address: didId.pkiAddress,
-    args: address ? [RECOVERY, address, didId.salt] : undefined,
+    args: address ? [RECOVERY_ADDRESS, address, didId.salt] : undefined,
     enabled: !!address,
   })
 

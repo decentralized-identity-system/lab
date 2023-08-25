@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import type { Users } from '@/app/api/app/users/route'
+import type { Users } from '@/app/api/app/users_archive/route'
 
 export async function getAppUsers() {
   try {

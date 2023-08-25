@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Footer } from '@/components/layout/footer'
+import { Footer } from '@/app/(general)/footer'
 import { Toaster } from '@/components/ui/toaster'
 import { NetworkStatus } from '@/components/blockchain/network-status'
 import { WalletConnect } from '@/components/blockchain/wallet-connect'

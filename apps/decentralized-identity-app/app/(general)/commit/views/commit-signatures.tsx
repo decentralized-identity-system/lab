@@ -2,15 +2,17 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { cn } from '@/lib/utils'
 import { useAccount, useNetwork, useSignMessage } from 'wagmi'
-import { encodePacked, keccak256 } from 'viem'
+import { encodePacked, keccak256, toHex } from 'viem'
 import { useMemo, useState, MutableRefObject } from 'react'
 import type { Signatures, OnPageChange, DidId } from '../types'
 import { useCommitSignatures } from '../hooks/use-commit-signatures'
 import { LinkComponent } from '@/components/shared/link-component'
 import { Card } from '@/components/ui/card'
 import { usePkiComputeAddress } from '@/lib/generated/blockchain'
-import { RECOVERY, PKI_ADDRESS } from '../utils/constants'
-import { generateSalt, constructDidDocument } from '../utils'
+import { SALT_FOR_WALLET } from '../utils/constants'
+import { constructDidDocument } from '../utils'
+import { useGetPKIAddress } from '../hooks/use-get-pki-address'
+import { useGetRecoveryAddress } from '../hooks/use-get-recovery-address'
 
 interface CommitSignaturesView {
   didIdRef: MutableRefObject<DidId>
@@ -24,11 +26,12 @@ export function CommitSignaturesView({ didIdRef, onPageChange }: CommitSignature
   })
   const { chain } = useNetwork()
   const { address } = useAccount()
-  const SALT = useMemo(() => generateSalt(), [])
+  const PKI_ADDRESS = useGetPKIAddress()
+  const RECOVERY_ADDRESS = useGetRecoveryAddress()
 
   const { data: walletAddress } = usePkiComputeAddress({
     address: PKI_ADDRESS,
-    args: address ? [RECOVERY, address, SALT] : undefined,
+    args: address ? [RECOVERY_ADDRESS, address, BigInt(SALT_FOR_WALLET)] : undefined,
     enabled: !!address,
   })
 
@@ -54,11 +57,20 @@ export function CommitSignaturesView({ didIdRef, onPageChange }: CommitSignature
   } = useCommitSignatures({
     commitPayload: {
       did: didDocument.id,
-      didDocument: didDocument,
-      hexDid: keccak256(encodePacked(['string'], [JSON.stringify(didDocument)])),
-      salt: SALT.toString(),
-      signatureWallet: signatures.wallet || '',
-      signatureDid: signatures.identity || '',
+      chainId: chain?.id || 1,
+      creator: address as string,
+      address: walletAddress as string,
+      pki: PKI_ADDRESS,
+      recovery: RECOVERY_ADDRESS,
+      salt: SALT_FOR_WALLET,
+      commitments: {
+        wallet: signatures.wallet as string,
+        identity: signatures.identity as string,
+      },
+      identity: {
+        hex: toHex(JSON.stringify(didDocument)),
+        document: didDocument,
+      },
     },
     onSuccess: () => {
       if (!chain || !walletAddress) return
@@ -66,7 +78,7 @@ export function CommitSignaturesView({ didIdRef, onPageChange }: CommitSignature
         chain: chain?.id,
         pkiAddress: PKI_ADDRESS,
         walletAddress: walletAddress,
-        salt: SALT,
+        salt: SALT_FOR_WALLET,
       }
       onPageChange()
     },
@@ -74,7 +86,9 @@ export function CommitSignaturesView({ didIdRef, onPageChange }: CommitSignature
 
   const handleSignWalletMessage = async () => {
     if (!address) return
-    const bytesWalletMessage = keccak256(encodePacked(['address', 'address', 'address', 'uint256'], [PKI_ADDRESS, RECOVERY, address, SALT]))
+    const bytesWalletMessage = keccak256(
+      encodePacked(['address', 'address', 'address', 'uint256'], [PKI_ADDRESS, RECOVERY_ADDRESS, address, SALT_FOR_WALLET])
+    )
     signMessage({ message: bytesWalletMessage })
   }
 
@@ -91,7 +105,7 @@ export function CommitSignaturesView({ didIdRef, onPageChange }: CommitSignature
         <div className="w-full flex flex-col gap-y-8 max-w-2xl">
           <div className="flex justify-between items-center">
             <h3 className="font-bold text-base">Commit</h3>
-            <LinkComponent href="/how-to" className={cn(buttonVariants({ variant: 'tertiary', size: 'lg' }), 'p-0')}>
+            <LinkComponent href="/how-it-works" className={cn(buttonVariants({ variant: 'tertiary', size: 'lg' }), 'p-0')}>
               How it works
             </LinkComponent>
           </div>

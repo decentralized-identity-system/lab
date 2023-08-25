@@ -17,7 +17,7 @@ export interface DidId {
   chain: number
   pkiAddress: Address
   walletAddress: Address
-  salt: bigint
+  salt: number
 }
 
 export type OnPageChange = () => void
