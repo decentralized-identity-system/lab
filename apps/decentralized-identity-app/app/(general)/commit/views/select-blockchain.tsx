@@ -11,12 +11,14 @@ const supportedBlockchains = [
   {
     name: 'Hardhat',
     chainId: 31337,
+    recommended: false,
     className: 'border-[#25292E]',
     logo: '/chains/hardhat.svg',
   },
   {
     name: 'Sepolia',
     chainId: 11155111,
+    recommended: false,
     className: 'border-[#25292E]',
     logo: '/chains/ethereum.svg',
   },

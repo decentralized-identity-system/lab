@@ -87,7 +87,7 @@ export function CommitSignaturesView({ didIdRef, onPageChange }: CommitSignature
   const handleSignWalletMessage = async () => {
     if (!address) return
     const bytesWalletMessage = keccak256(
-      encodePacked(['address', 'address', 'address', 'uint256'], [PKI_ADDRESS, RECOVERY_ADDRESS, address, SALT_FOR_WALLET])
+      encodePacked(['address', 'address', 'address', 'uint256'], [PKI_ADDRESS, RECOVERY_ADDRESS, address, BigInt(SALT_FOR_WALLET)])
     )
     signMessage({ message: bytesWalletMessage })
   }

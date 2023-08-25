@@ -28,7 +28,7 @@ export function SmartWalletView({ didId }: SmartWalletViewProps) {
 
   const { config } = usePreparePkiDeployWallet({
     address: didId.pkiAddress,
-    args: address ? [RECOVERY_ADDRESS, address, didId.salt] : undefined,
+    args: address ? [RECOVERY_ADDRESS, address, BigInt(didId.salt)] : undefined,
     enabled: !!address,
   })
 

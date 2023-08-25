@@ -13,7 +13,7 @@ export default function Dashboard() {
 
   return (
     <div className="w-full max-w-7xl flex justify-center items-center">
-      <QRCode className='rounded-lg' value={data.did} size={368} imgSettings={{
+      <QRCode className='rounded-xl border-2 border-white shadow-md' fgColor='#3e3e3e' value={data.did} size={368} imgSettings={{
         src: 'https://pbs.twimg.com/profile_images/1614629077276663813/-D_dYj9i_400x400.jpg',
         height: 64,
         width: 64,
