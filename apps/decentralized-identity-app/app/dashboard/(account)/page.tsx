@@ -23,16 +23,17 @@ export default function Dashboard() {
         <h3 className="font-bold text-4xl mb-4">Account</h3>
         <p className="text-sm">Manage your Web3 identity and finances in one place</p>
       </div>
-        <TokenBalances className="mt-8 flex items-center gap-x-5" />
-        <div className='mt-8 '>
-          <SmartWalletDeployButton className="w-full" />
-          <p className='text-xs mt-4 flex items-center justify-center'>
-            Your Smart Wallet (<Address className='font-bold' truncate address={data.address}/>) will be deployed to <NetworkDetails className='inline-flex items-center ml-1' displayIcon width={12} height={12} chainId={84531}/>
-          </p>
-        </div>
-        <CardGuardians className="mt-8" />
-        <CardIdentity className="mt-8" />
-        <CardSocial className="mt-8" />
+      <TokenBalances className="mt-8 flex items-center gap-x-5" />
+      <div className="mt-8 ">
+        <SmartWalletDeployButton className="w-full" />
+        <p className="text-xs mt-4 flex items-center justify-center">
+          Your Smart Wallet (<Address className="font-bold" truncate address={data.address} />) will be deployed to{' '}
+          <NetworkDetails className="inline-flex items-center ml-1" displayIcon width={12} height={12} chainId={84531} />
+        </p>
+      </div>
+      <CardGuardians className="mt-8" />
+      <CardIdentity className="mt-8" />
+      <CardSocial className="mt-8" />
     </div>
   )
 }
@@ -53,24 +54,25 @@ const Row = ({ label, value }: Row) => {
   )
 }
 
-type TokenBalances = React.HTMLAttributes<HTMLElement>;
+type TokenBalances = React.HTMLAttributes<HTMLElement>
 
-const TokenBalances = ({ children, className }: TokenBalances) => { 
-const classes = cn(className);
+const TokenBalances = ({ children, className }: TokenBalances) => {
+  const classes = cn(className)
 
- return(
-  <div className={classes}>
-    <Card className='p-4 flex-1'>
-      <TokenBalanceAndIcon className='w-full' address={'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'} chainId={1} />
-    </Card>
-    <Card className='p-4 flex-1'>
-      <TokenBalanceAndIcon address={'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'} chainId={1} />
-    </Card>
-    <Card className='p-4 flex-1'>
-      <TokenBalanceAndIcon address={'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'} chainId={1} />
-    </Card>
-  </div>
-)}
+  return (
+    <div className={classes}>
+      <Card className="p-4 flex-1">
+        <TokenBalanceAndIcon className="w-full" address={'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'} chainId={1} />
+      </Card>
+      <Card className="p-4 flex-1">
+        <TokenBalanceAndIcon address={'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'} chainId={1} />
+      </Card>
+      <Card className="p-4 flex-1">
+        <TokenBalanceAndIcon address={'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'} chainId={1} />
+      </Card>
+    </div>
+  )
+}
 
 type CardGuardians = React.HTMLAttributes<HTMLElement>
 

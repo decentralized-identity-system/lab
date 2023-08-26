@@ -6,6 +6,9 @@ import { useAccount } from 'wagmi'
 import { redirect } from 'next/navigation'
 import { useEffect } from 'react'
 import { useGetSmartWalletFromAddress } from '@/lib/hooks/use-get-smart-wallet-from-address'
+import { IsWalletConnected } from '@/components/shared/is-wallet-connected'
+import { IsWalletDisconnected } from '@/components/shared/is-wallet-disconnected'
+import { WalletConnect } from '@/components/blockchain/wallet-connect'
 
 export default function WelcomePage() {
   const { address } = useAccount()
@@ -26,9 +29,14 @@ export default function WelcomePage() {
         capabilities.
       </p>
       <div className="mt-12 flex items-center gap-x-9">
-        <LinkComponent href="/commit" className={cn(buttonVariants({ size: 'xl' }))}>
-          Get Started
-        </LinkComponent>
+        <IsWalletConnected>
+          <LinkComponent href="/commit" className={cn(buttonVariants({ size: 'xl' }))}>
+            Get Started
+          </LinkComponent>
+        </IsWalletConnected>
+        <IsWalletDisconnected>
+          <WalletConnect />
+        </IsWalletDisconnected>
         <LinkComponent href="/how-it-works" className={cn(buttonVariants({ variant: 'tertiary', size: 'lg' }))}>
           How it works
         </LinkComponent>

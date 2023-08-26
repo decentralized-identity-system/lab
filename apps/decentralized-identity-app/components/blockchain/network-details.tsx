@@ -4,7 +4,6 @@ import classNames from 'clsx'
 import { Chain } from 'viem'
 import { useNetwork } from 'wagmi'
 
-
 import { NetworkIcon } from './network-icon'
 
 const useSelectNetwork = ({ chainId, chains }: { chainId?: number; chains?: Chain[] }): Chain | undefined => {
