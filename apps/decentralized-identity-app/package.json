@@ -19,7 +19,7 @@
     "format": "prettier . --list-different",
     "format-fix": "prettier . --write",
     "run-ci": "concurrently -c \"auto\" -p \"name\" -n \"format,lint\" \"pnpm format\"  \"pnpm lint\"  ",
-    "prepare": "husky install ; prisma generate ; wagmi generate"
+    "prepare": "husky install ; prisma generate"
   },
   "husky": {
     "hooks": {
