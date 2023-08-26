@@ -19,7 +19,7 @@ const TooltipContent = forwardRef<ElementRef<typeof TooltipPrimitive.Content>, C
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        'z-50 overflow-hidden rounded-md border border-slate-100 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-md animate-in fade-in-50 data-[side=bottom]:slide-in-from-top-1 data-[side=top]:slide-in-from-bottom-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-400',
+        'z-50 overflow-hidden rounded-md border border-neutral-100 bg-white px-3 py-1.5 text-sm text-neutral-700 shadow-md animate-in fade-in-50 data-[side=bottom]:slide-in-from-top-1 data-[side=top]:slide-in-from-bottom-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 dark:border-neutral-800 dark:bg-neutral-800 dark:text-neutral-100',
         className
       )}
       {...props}
@@ -28,4 +28,6 @@ const TooltipContent = forwardRef<ElementRef<typeof TooltipPrimitive.Content>, C
 )
 TooltipContent.displayName = TooltipPrimitive.Content.displayName
 
-export { Tooltip, TooltipTrigger, TooltipContent }
+const TooltipProvider = TooltipPrimitive.TooltipProvider
+
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }

@@ -3,15 +3,13 @@ import { LinkComponent } from '@/components/shared/link-component'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useAccount } from 'wagmi'
-import { useFetchDIDDocumentFromAddress } from './commit/hooks/use-fetch-did-document-from-address'
 import { redirect } from 'next/navigation'
 import { useEffect } from 'react'
+import { useGetSmartWalletFromAddress } from '@/lib/hooks/use-get-smart-wallet-from-address'
 
 export default function WelcomePage() {
   const { address } = useAccount()
-  const { data, error, isSuccess } = useFetchDIDDocumentFromAddress(address)
-
-  console.log(data, error, isSuccess, 'data, error, isSuccess')
+  const { data, error, isSuccess } = useGetSmartWalletFromAddress(address)
 
   useEffect(() => {
     if (isSuccess) {
@@ -22,8 +20,12 @@ export default function WelcomePage() {
   return (
     <div className="w-full max-w-7xl">
       <h2 className="text-tertiary text-6xl font-bold">Welcome</h2>
-      <p className="mt-6 text-3xl text-tertiary">Are you ready to start your Web3 Journey? </p>
-      <div className="mt-24 flex items-center gap-x-9">
+      <h3 className="mt-4 text-3xl text-tertiary">Start your Web3 journey and explore what's possible.</h3>
+      <p className="mt-4 text-normal">
+        Create a Smart Wallet with <span className="font-semibold">Sovereign Identity</span> and <span className="font-semibold">Open Finance</span>{' '}
+        capabilities.
+      </p>
+      <div className="mt-12 flex items-center gap-x-9">
         <LinkComponent href="/commit" className={cn(buttonVariants({ size: 'xl' }))}>
           Get Started
         </LinkComponent>

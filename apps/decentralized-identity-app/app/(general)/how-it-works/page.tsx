@@ -1,4 +1,4 @@
-export default function HowToPage() {
+export default function HowItWorks() {
   return (
     <div className="w-full text-center max-w-7xl">
       <h2 className="font-bold text-4xl">How it works</h2>

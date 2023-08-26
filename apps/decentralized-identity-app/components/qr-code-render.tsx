@@ -15,7 +15,7 @@ type Props = React.HTMLAttributes<HTMLElement> & {
   }
 }
 
-export const QRCode = ({ className, value, bgColor = '#FFF', fgColor = '#000', size = 164, imgSettings }: Props) => {
+export const QRCodeRender = ({ className, value, bgColor = '#FFF', fgColor = '#000', size = 164, imgSettings }: Props) => {
   const classes = classNames(className, 'QRCode')
   return (
     <div className={classes}>

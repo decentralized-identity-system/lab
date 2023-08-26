@@ -5,7 +5,7 @@ import { VariantProps, cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
@@ -14,17 +14,27 @@ const buttonVariants = cva(
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         tertiary: 'text-tertiary underline-offset-4 hover:underline',
+        dark: 'text-white bg-neutral-800 hover:underline',
         action: 'bg-action text-action-foreground hover:bg-action/90',
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: 'h-10 py-2 px-6 rounded-full',
-        sm: 'h-9 px-4 rounded-full',
-        lg: 'h-11 px-8 text-base rounded-full',
-        xl: 'h-14 px-10 text-xl font-bold rounded-full',
+        default: 'h-10 py-2 px-6',
+        sm: 'h-9 px-4',
+        lg: 'h-11 px-8 text-base',
+        xl: 'h-14 px-10 text-xl font-bold',
+      },
+      rounded: {
+        default: 'rounded-xs',
+        sm: 'rounded-sm',
+        md: 'rounded-md',
+        lg: 'rounded-lg',
+        xl: 'rounded-xl',
+        full: 'rounded-full',
       },
     },
     defaultVariants: {
+      rounded: 'default',
       variant: 'default',
       size: 'default',
     },
@@ -33,8 +43,8 @@ const buttonVariants = cva(
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {}
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, ...props }, ref) => {
-  return <button ref={ref} className={cn(buttonVariants({ variant, size, className }))} {...props} />
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, rounded, ...props }, ref) => {
+  return <button ref={ref} className={cn(buttonVariants({ variant, size, rounded, className }))} {...props} />
 })
 Button.displayName = 'Button'
 

@@ -19,10 +19,10 @@ interface SiteConfig {
 export const SITE_CANONICAL = 'https://turboeth.xyz'
 
 export const siteConfig: SiteConfig = {
-  name: 'TurboETH',
-  title: 'TurboETH - Web3 App Template',
+  name: 'Smart Wallet',
+  title: 'Smart Wallet - Identity & Finance',
   emoji: '⚡',
-  description: 'Web3 App Template built using Next.js, RainbowKit, SIWE, Disco, and more!',
+  description: 'Smart Wallet for Web3 with Identity & Finance primitives',
   previewImg: `${SITE_CANONICAL}/preview.png`,
   localeDefault: 'en',
   links: {
@@ -41,20 +41,5 @@ export const legalLinks = [
   {
     title: 'Privacy Policy',
     href: 'https://districtlabs.com/legal/privacy-policy',
-  },
-]
-
-export const footerLinks = [
-  {
-    title: 'Wallet',
-    href: '/dashboard',
-  },
-  {
-    title: 'Guardians',
-    href: '/dashboard/guardians',
-  },
-  {
-    title: 'Credentials',
-    href: '/dashboard/credentials',
   },
 ]

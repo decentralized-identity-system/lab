@@ -1,10 +1,10 @@
 import { useQuery } from 'wagmi'
 
-export function useGethWalletFromAddress(address: string | undefined) {
+export function useGetSmartWalletFromAddress(address: string | undefined) {
   return useQuery(['wallet-from-address', address], async () => {
     if (!address) throw new Error('No address provided')
     const response = await fetch(
-      `api/wallet-from-address?` +
+      `/api/wallet-from-address?` +
         new URLSearchParams({
           address: address,
         }),

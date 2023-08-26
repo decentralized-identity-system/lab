@@ -113,7 +113,14 @@ export function SmartWalletView({ didId }: SmartWalletViewProps) {
       </Card>
       <div className="mt-7 flex text-center items-center gap-x-7">
         <div>
+          <Button rounded="lg" variant={'default'}>
+            <LinkComponent href="/dashboard">Dashboard</LinkComponent>
+          </Button>
+          <p className="mt-2 text-tertiary">Get Started</p>
+        </div>
+        <div>
           <Button
+            rounded="lg"
             variant={isError ? 'destructive' : 'secondary'}
             disabled={isWallet || isLoadingDeployWallet || isSuccessDeployWallet || !write}
             onClick={() => write?.()}>
@@ -132,7 +139,9 @@ export function SmartWalletView({ didId }: SmartWalletViewProps) {
           <p className="mt-2 text-tertiary">Optional</p>
         </div>
         <div>
-          <Button disabled>Connect Social Media</Button>
+          <Button rounded="lg" disabled>
+            Connect Social Media
+          </Button>
           <p className="mt-2 text-tertiary">Recommended</p>
         </div>
       </div>

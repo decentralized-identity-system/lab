@@ -54,8 +54,9 @@ export function Header({ className, ...props }: HTMLAttributes<HTMLElement>) {
               <Image alt="Logo" height={24} src="/district-logo.png" width={24} />
             </IsDarkTheme>
           </LinkComponent>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-x-4">
             <WalletConnect />
+            <ThemeToggle />
           </div>
         </div>
       </IsDesktop>
