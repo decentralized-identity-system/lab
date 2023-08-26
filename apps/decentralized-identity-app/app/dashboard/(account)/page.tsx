@@ -55,8 +55,8 @@ const Row = ({ label, value }: Row) => {
 
 type TokenBalances = React.HTMLAttributes<HTMLElement>;
 
-export const TokenBalances = ({ children, className }: TokenBalances) => { 
- const classes = cn(className);
+const TokenBalances = ({ children, className }: TokenBalances) => { 
+const classes = cn(className);
 
  return(
   <div className={classes}>
@@ -74,7 +74,7 @@ export const TokenBalances = ({ children, className }: TokenBalances) => {
 
 type CardGuardians = React.HTMLAttributes<HTMLElement>
 
-export const CardGuardians = ({ children, className }: CardGuardians) => {
+const CardGuardians = ({ children, className }: CardGuardians) => {
   const classes = classNames(className, 'text-left')
 
   return (
@@ -96,7 +96,7 @@ export const CardGuardians = ({ children, className }: CardGuardians) => {
 
 type CardIdentity = React.HTMLAttributes<HTMLElement>
 
-export const CardIdentity = ({ children, className }: CardIdentity) => {
+const CardIdentity = ({ children, className }: CardIdentity) => {
   const classes = classNames(className, 'text-left')
 
   return (
@@ -118,7 +118,7 @@ export const CardIdentity = ({ children, className }: CardIdentity) => {
 
 type CardSocial = React.HTMLAttributes<HTMLElement>
 
-export const CardSocial = ({ children, className }: CardSocial) => {
+const CardSocial = ({ children, className }: CardSocial) => {
   const classes = classNames(className, 'text-left')
 
   return (

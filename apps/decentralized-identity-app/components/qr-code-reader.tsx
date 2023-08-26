@@ -9,7 +9,7 @@ type QRCodeReader = React.HTMLAttributes<HTMLElement> & {
 }
 
 export const QRCodeReader = ({ classNameTrigger, iconSize = 24 }: QRCodeReader) => {
-  const [data, setData] = useState('No result')
+  const [data, setData] = useState<any>('No result')
 
   useEffect(() => {
     console.log(data)
@@ -26,7 +26,7 @@ export const QRCodeReader = ({ classNameTrigger, iconSize = 24 }: QRCodeReader) 
             constraints={{ facingMode: 'environment' }}
             onResult={(result, error) => {
               if (!!result) {
-                setData(result?.text)
+                setData(result)
               }
 
               if (!!error) {

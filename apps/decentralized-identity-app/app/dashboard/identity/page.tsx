@@ -60,7 +60,7 @@ const IdentityDocument = ({ document }: IdentityDocument) => {
 
 type IdentityDocumentHowItWorksModal = React.HTMLAttributes<HTMLElement>
 
-export const IdentityDocumentHowItWorksModal = ({ children, className }: IdentityDocumentHowItWorksModal) => {
+const IdentityDocumentHowItWorksModal = ({ children, className }: IdentityDocumentHowItWorksModal) => {
   const classes = classNames(className, 'Component')
   return (
     <div className={classes}>
