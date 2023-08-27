@@ -10,6 +10,7 @@ import { TokenBalanceAndIcon } from '@/components/token/token-balance-and-icon'
 import { cn } from '@/lib/utils'
 import { NetworkDetails } from '@/components/blockchain/network-details'
 import { Address } from '@/components/blockchain/address'
+import { IsDesktop } from '@/components/shared/is-desktop'
 
 export default function Dashboard() {
   const { address } = useAccount()
@@ -23,14 +24,16 @@ export default function Dashboard() {
         <h3 className="font-bold text-4xl mb-4">Account</h3>
         <p className="text-sm">Manage your Web3 identity and finances in one place</p>
       </div>
-      <TokenBalances className="mt-8 flex items-center gap-x-5" />
-      <div className="mt-8 ">
-        <SmartWalletDeployButton className="w-full" />
-        <p className="text-xs mt-4 flex items-center justify-center">
-          Your Smart Wallet (<Address className="font-bold" truncate address={data.address} />) will be deployed to{' '}
-          <NetworkDetails className="inline-flex items-center ml-1" displayIcon width={12} height={12} chainId={84531} />
-        </p>
-      </div>
+      <IsDesktop>
+        <TokenBalances className="mt-8 flex items-center gap-x-5" />
+        <div className="mt-8 ">
+          <SmartWalletDeployButton className="w-full" />
+          <p className="text-xs mt-4 flex items-center justify-center">
+            Your Smart Wallet (<Address className="font-bold" truncate address={data.address} />) will be deployed to{' '}
+            <NetworkDetails className="inline-flex items-center ml-1" displayIcon width={12} height={12} chainId={84531} />
+          </p>
+        </div>
+      </IsDesktop>
       <CardGuardians className="mt-8" />
       <CardIdentity className="mt-8" />
       <CardSocial className="mt-8" />

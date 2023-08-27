@@ -20,7 +20,7 @@ export const QRCodeDisplay = ({ classNameTrigger, iconSize = 24 }: QRCodeDisplay
         <DialogTrigger className={classNameTrigger}>
           <LuQrCode size={iconSize} />
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className='fixed top-0 bottom-0 left-0 right-0  flex items-center justify-center'>
           <QRCodeRender
             className="rounded-xl w-full"
             fgColor="#3e3e3e"

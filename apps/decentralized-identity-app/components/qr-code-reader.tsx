@@ -21,8 +21,11 @@ export const QRCodeReader = ({ classNameTrigger, iconSize = 24 }: QRCodeReader) 
         <DialogTrigger className={classNameTrigger}>
           <LuCamera size={iconSize} />
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className='fixed top-0 bottom-0 left-0 right-0'>
           <QrReader
+            className='fixed top-0 bottom-0 left-0 right-0'
+            videoStyle={{ width: '100%', height: '100%' }}
+            videoContainerStyle={{ width: '100%', height: '100%' }}
             constraints={{ facingMode: 'environment' }}
             onResult={(result, error) => {
               if (!!result) {
@@ -34,7 +37,7 @@ export const QRCodeReader = ({ classNameTrigger, iconSize = 24 }: QRCodeReader) 
               }
             }}
           />
-          <p>{data}</p>
+          <div className='fixed p-3 bg-neutral-100 text-center bottom-0 left-0 right-0'>{data}</div>
         </DialogContent>
       </Dialog>
     </>
