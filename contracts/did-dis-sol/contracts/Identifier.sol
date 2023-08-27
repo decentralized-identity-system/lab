@@ -73,7 +73,6 @@ contract Identifier is OwnerManager, Shared {
         bytes memory didHex = bytes(response[65:]);
         bytes32 msgHash2 = keccak256(abi.encodePacked(string(didHex)));
         address signer = _recoverSigner(msgHash2, msgSignature);
-        console.log(signer, "SIGNER");
         require(owner[signer], "INVALID SIGNATURE");
         return string(didHex);
     }

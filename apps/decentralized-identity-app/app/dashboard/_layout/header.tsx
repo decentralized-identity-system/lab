@@ -36,10 +36,10 @@ export function Header({ className, ...props }: HTMLAttributes<HTMLElement>) {
         <div className="flex w-full justify-between">
           <LinkComponent className="flex flex-1 items-center " href="/">
             <IsLightTheme>
-              <Image alt="Logo" height={24} src="/district-logo.png" width={24} />
+              <Image alt="Logo" height={24} src="/logo.png" width={24} />
             </IsLightTheme>
             <IsDarkTheme>
-              <Image alt="Logo" height={24} src="/district-logo.png" width={24} />
+              <Image alt="Logo" height={24} src="/logo.png" width={24} />
             </IsDarkTheme>
           </LinkComponent>
           <MenuMobile />
@@ -52,10 +52,10 @@ export function Header({ className, ...props }: HTMLAttributes<HTMLElement>) {
         <div className="flex justify-between w-full">
           <LinkComponent className="flex items-center" href="/">
             <IsLightTheme>
-              <Image alt="Logo" height={24} src="/district-logo.png" width={24} />
+              <Image alt="Logo" height={24} src="/logo.png" width={24} />
             </IsLightTheme>
             <IsDarkTheme>
-              <Image alt="Logo" height={24} src="/district-logo.png" width={24} />
+              <Image alt="Logo" height={24} src="/logo.png" width={24} />
             </IsDarkTheme>
           </LinkComponent>
           <div className="flex items-center gap-x-4">

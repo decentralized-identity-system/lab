@@ -9,11 +9,8 @@ import {  walletSchema } from "../lib/validation/commit";
 export const commit = async (req: Request, res: Response): Promise<void> => {
     const { body } = req;
 
-    console.log(body, 'bodybody')
-
     const safeWallet = walletSchema.safeParse(body);
 
-    console.log(safeWallet, 'safeWallet')
     if (!safeWallet.success) {
         res.status(400).json({ ok: false, error: "Invalid body" });
         return;

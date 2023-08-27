@@ -30,8 +30,6 @@ export const walletFromAddress = async (
             },
         });
 
-        console.log(dis, 'dis')
-
         if (!dis) {
             res.status(404).json({ ok: false, error: "DID not found" });
             return;

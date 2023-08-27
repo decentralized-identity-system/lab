@@ -12,7 +12,7 @@ export function SelectIdentityHubView({ onPageChange }: { onPageChange: OnPageCh
       <h2 className="font-bold text-5xl ">Select Identity Hub</h2>
       <Card className="mt-10 w-full max-w-md">
         <CardHeader className="flex flex-row items-center justify-between">
-          <Image alt="District logo" quality={100} src="/district-logo.png" height={32} width={32} />
+          <Image alt="District logo" quality={100} src="/logo.png" height={32} width={32} />
           <p className="text-2xs">district.web3oftrust.eth</p>
           <LinkComponent
             href="https://districtlabs.com/"

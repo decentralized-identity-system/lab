@@ -12,7 +12,6 @@ export async function POST(req: Request) {
       body: JSON.stringify(body),
     })
 
-    console.log(await response.json())
     if (!response.ok) {
       throw new Error('Failed to commit signatures')
     }

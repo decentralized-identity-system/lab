@@ -4,7 +4,7 @@ import { siteConfig } from '@/config/site'
 
 export const runtime = 'edge'
 
-export const alt = 'TurboETH Logo'
+export const alt = 'District Smart Wallet'
 export const size = {
   width: 1200,
   height: 630,
@@ -24,9 +24,9 @@ export default async function Image() {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: 'white',
-          backgroundImage: 'linear-gradient(to bottom right, #FFF 25%, #FFF0CA 75%)',
+          backgroundImage: 'linear-gradient(to bottom right, #59D95E 25%, #156A18 75%)',
         }}>
-        <img alt="TurboETH Logo" src={new URL('../public/logo-fill.png', import.meta.url).toString()} tw="w-20 h-20 mb-4 opacity-95" />
+        <img alt="District Smart Wallet" src={new URL('../public/logo.png', import.meta.url).toString()} tw="w-20 h-20 mb-4 opacity-95" />
         <h1
           style={{
             fontSize: '100px',
@@ -42,7 +42,7 @@ export default async function Image() {
         </h1>
         <h3
           style={{
-            fontSize: '22px',
+            fontSize: '28px',
             fontFamily: 'SF Pro',
             background: 'linear-gradient(to bottom right, #000000 21.66%, #78716c 86.47%)',
             backgroundClip: 'text',
