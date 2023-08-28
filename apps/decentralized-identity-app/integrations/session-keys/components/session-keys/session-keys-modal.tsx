@@ -7,7 +7,7 @@ import { CreateSessionKey } from './create-session-key'
 
 type SessionKeysModal = React.HTMLAttributes<HTMLElement>
 
-export const SessionKeysModal = ({ children, className }: SessionKeysModal) => {
+export const SessionKeysModal = ({ className }: SessionKeysModal) => {
   const classes = cn(className)
 
   return (

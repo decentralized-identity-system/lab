@@ -1,4 +1,5 @@
-import { useSessionKeys } from '../hooks/use-session-keys'
+import { useSessionKeys } from "../../hooks/use-session-keys"
+
 
 export function DeleteAllSessionKeys() {
   const { sessionKeys, deleteAllSessionKeys } = useSessionKeys()

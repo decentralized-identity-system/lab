@@ -1,8 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react'
 
 import type { Address } from 'wagmi'
+import { useSessionKeys } from '../../hooks/use-session-keys'
 
-import { useSessionKeys } from '../hooks/use-session-keys'
 
 interface DeleteSessionKeyProps {
   selectedSessionKey?: Address | undefined

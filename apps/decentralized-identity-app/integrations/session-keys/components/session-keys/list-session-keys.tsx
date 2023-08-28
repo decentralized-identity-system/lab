@@ -6,8 +6,8 @@ import type { Address } from 'wagmi'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useSessionKeys } from '../../hooks/use-session-keys'
 
-import { useSessionKeys } from '../hooks/use-session-keys'
 
 interface ListSessionKeysProps {
   selectedSessionKey?: Address | undefined
