@@ -9,6 +9,7 @@
     "build:web": "turbo run --filter @district-labs/web build ",
     "clean": "turbo run clean ; rimraf node_modules",
     "dev": "turbo run dev --concurrency 25",
+    "dev:app": "turbo run dev:app --concurrency 25",
     "dev:react": "pnpm --filter @district-labs/react* dev",
     "export": "turbo run export",
     "deploy:dev": "turbo run deploy:dev",

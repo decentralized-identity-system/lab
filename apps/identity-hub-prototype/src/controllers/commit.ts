@@ -1,40 +1,45 @@
 import type { Request, Response } from "express";
 import { prisma } from "../lib/prisma";
-
-import { commitSchema } from "../lib/validation/commit";
+import {  walletSchema } from "../lib/validation/commit";
 
 /**
  * POST /commit
- * Stores a new DID commitment into the database.
+ * Stores Wallet and DID commitments into the database.
  */
 export const commit = async (req: Request, res: Response): Promise<void> => {
     const { body } = req;
 
-    const safeDid = commitSchema.safeParse(body);
+    const safeWallet = walletSchema.safeParse(body);
 
-    if (!safeDid.success) {
+    if (!safeWallet.success) {
         res.status(400).json({ ok: false, error: "Invalid body" });
         return;
     }
 
     const {
         did: didData,
-        didDocument,
-        hexDid,
+        chainId,
+        creator,
+        address,
         salt,
-        signatureDid,
-        signatureWallet,
-    } = safeDid.data;
+        pki,
+        recovery,
+        commitments,
+        identity,
+    } = safeWallet.data;
 
     try {
-        await prisma.dis.create({
+        await prisma.wallet.create({
             data: {
                 did: didData,
-                didDocument,
-                hexDid,
-                salt,
-                signatureDid,
-                signatureWallet,
+                chainId: Number(chainId),
+                creator,
+                address,
+                salt: Number(salt),
+                pki,
+                recovery,
+                commitments,
+                identity,
             },
         });
     } catch (error) {

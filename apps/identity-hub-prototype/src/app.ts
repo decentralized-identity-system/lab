@@ -1,7 +1,9 @@
+import dns from 'node:dns';
 import express from "express";
 import logger from "morgan";
 import * as path from "path";
 import { errorHandler, errorNotFoundHandler } from "./middlewares/errorHandler";
+dns.setDefaultResultOrder('ipv4first');
 
 // Routes
 import { index } from "./routes/index";

@@ -38,7 +38,6 @@ app.get('/counterfactual/*', (req, res) => {
 })
 
 app.get('/materialized/*', (req, res) => {
-    console.log('WTF')
     const bytes = ethers.utils.toUtf8Bytes(JSON.stringify(DID));
     const hexValue = ethers.utils.hexlify(bytes);
     const msg = ethers.utils.solidityPack(['bytes', 'bytes'], [signatureDID, hexValue]);

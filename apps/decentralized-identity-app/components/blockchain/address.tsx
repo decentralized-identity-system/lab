@@ -13,7 +13,7 @@ interface AddressProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
 export const Address = ({ address, className, truncate, isLink, ...props }: AddressProps) => {
   const { chain } = useNetwork()
   const blockExplorerUrl = chain?.blockExplorers?.default.url
-  const formattedAddress = truncate ? `${address.slice(0, 6)}...${address.slice(-4)}` : address
+  const formattedAddress = truncate ? `${address.slice(0, 8)}...${address.slice(-6)}` : address
 
   if (isLink && blockExplorerUrl) {
     return (

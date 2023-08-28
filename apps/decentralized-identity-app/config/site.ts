@@ -19,10 +19,10 @@ interface SiteConfig {
 export const SITE_CANONICAL = 'https://turboeth.xyz'
 
 export const siteConfig: SiteConfig = {
-  name: 'TurboETH',
-  title: 'TurboETH - Web3 App Template',
+  name: 'Smart Wallet',
+  title: 'Smart Wallet - Identity & Finance',
   emoji: '⚡',
-  description: 'Web3 App Template built using Next.js, RainbowKit, SIWE, Disco, and more!',
+  description: 'Smart Wallet for Web3 with Identity & Finance primitives',
   previewImg: `${SITE_CANONICAL}/preview.png`,
   localeDefault: 'en',
   links: {
@@ -33,7 +33,7 @@ export const siteConfig: SiteConfig = {
   },
 }
 
-export const footerLinks = [
+export const legalLinks = [
   {
     title: 'Terms of Service',
     href: 'https://districtlabs.com/legal/terms-of-service',
@@ -43,6 +43,3 @@ export const footerLinks = [
     href: 'https://districtlabs.com/legal/privacy-policy',
   },
 ]
-
-export const DEPLOY_URL =
-  'https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fturbo-eth%2Ftemplate-web3-app&project-name=TurboETH&repository-name=turbo-eth&demo-title=TurboETH&env=NEXTAUTH_SECRET,DATABASE_URL&envDescription=How%20to%20get%20these%20env%20variables%3A&envLink=https%3A%2F%2Fgithub.com%2Fturbo-eth%2Ftemplate-web3-app%2Fblob%2Fmain%2F.env.example'

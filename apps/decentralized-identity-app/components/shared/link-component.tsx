@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
+import { isExternal } from 'util/types'
 
 interface LinkComponentProps extends HTMLAttributes<HTMLAnchorElement> {
   href: string
@@ -15,8 +16,9 @@ interface LinkComponentProps extends HTMLAttributes<HTMLAnchorElement> {
 
 export function LinkComponent({ href, children, isExternal, className, target = '_blank', ...props }: LinkComponentProps) {
   const pathname = usePathname()
-  const classes = cn(className, {
-    active: pathname === href,
+  const classes = cn(className, 'hover:text-neutral-800 transition', {
+    'text-neutral-500': pathname != href,
+    'text-neutral-800': pathname === href,
   })
   const isExternalEnabled = href.match(/^([a-z0-9]*:|.{0})\/\/.*$/) || isExternal
 

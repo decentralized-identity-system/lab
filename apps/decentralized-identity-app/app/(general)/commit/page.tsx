@@ -10,7 +10,7 @@ export default function CommitPage() {
     chain: 0,
     pkiAddress: '0x',
     walletAddress: '0x',
-    salt: BigInt(0),
+    salt: 0,
   })
 
   switch (page) {

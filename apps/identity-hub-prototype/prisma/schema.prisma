@@ -7,16 +7,29 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "mongodb"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model Dis {
-  did             String @id
+  did             String @id @map("_id")
   didDocument     Json
-  hexDid          String @db.Text
+  originalOwner   String
+  hexDid          String
   salt            String
   signatureWallet String
   signatureDid    String
+}
+
+model Wallet {
+  did         String @id @map("_id")
+  chainId     Int
+  creator     String
+  address     String
+  salt        Int
+  pki         String
+  recovery    String
+  commitments Json
+  identity    Json
 }

@@ -35,7 +35,13 @@
       "cache": false,
       "persistent": true
     },
-    "deployt:dev": {
+    "dev:app": {
+      "inputs": ["src/**", "public/**", "package.json"],
+      "outputs": ["dist/**", ".next/**", "node_modules/**"],
+      "cache": false,
+      "persistent": true
+    },
+    "deploy:dev": {
       "cache": false
     },
     "clean": {

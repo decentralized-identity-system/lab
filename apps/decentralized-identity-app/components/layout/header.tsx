@@ -9,7 +9,7 @@ import useScroll from '@/lib/hooks/use-scroll'
 import { cn } from '@/lib/utils'
 
 import { NavigationMenuGeneral } from './navigation-menu-general'
-import { UserDropdown } from './user-dropdown'
+import { MenuMobile } from '../../app/dashboard/_layout/menu-mobile'
 import BranchButtonLoginOrAccount from '../../integrations/siwe/components/branch-button-login-or-account'
 import { IsDarkTheme } from '../shared/is-dark-theme'
 import { IsDesktop } from '../shared/is-desktop'
@@ -42,7 +42,7 @@ export function Header({ className, ...props }: HTMLAttributes<HTMLElement>) {
             </IsDarkTheme>
           </LinkComponent>
           <div className="">
-            <UserDropdown />
+            <MenuMobile />
           </div>
         </div>
       </IsMobile>
