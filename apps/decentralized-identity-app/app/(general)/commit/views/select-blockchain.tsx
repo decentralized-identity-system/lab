@@ -63,6 +63,7 @@ export function SelectBlockChainView({ onPageChange }: { onPageChange: OnPageCha
           <div className="flex items-center gap-x-5">
             {supportedBlockchains.map(({ chainId, className, logo, name, recommended }) => (
               <Card
+                key={chainId}
                 onClick={() => switchNetwork?.(chainId)}
                 className={cn(
                   'w-full py-4 px-2.5 transition-all flex items-center justify-between rounded cursor-pointer',

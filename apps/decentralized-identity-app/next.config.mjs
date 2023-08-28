@@ -36,5 +36,5 @@ const nextConfig = {
   },
 }
 
-// export default nextConfig
-export default configuredPWA(nextConfig)
+export default nextConfig
+// export default configuredPWA(nextConfig)

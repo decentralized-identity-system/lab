@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 import { LinkComponent } from '../../../components/shared/link-component'
 import { dashboardLinks } from '@/config/dashboard-links'
+import { ThemeToggle } from '@/components/shared/theme-toggle'
 
 export function MenuMobile() {
   return (
@@ -21,6 +22,11 @@ export function MenuMobile() {
               {title}
             </LinkComponent>
           ))}
+        </div>
+        <hr className="border-black/20 my-2" />
+        <div className="flex justify-between items-center">
+          <span className="dark:text-white">Theme</span>
+          <ThemeToggle />
         </div>
       </PopoverContent>
     </Popover>
