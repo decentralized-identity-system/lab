@@ -8,6 +8,7 @@ import { Provider as RWBProvider } from 'react-wrap-balancer'
 
 import HandleWalletEvents from '@/components/blockchain/handle-wallet-events'
 import { RainbowKit } from '@/components/providers/rainbow-kit'
+import { Privy } from '@/components/providers/privy'
 import { useIsMounted } from '@/lib/hooks/use-is-mounted'
 
 const queryClient = new QueryClient()
@@ -20,11 +21,13 @@ export default function RootProvider({ children }: RootProviderProps) {
   return isMounted ? (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <RWBProvider>
-          <RainbowKit>
-            <HandleWalletEvents>{children}</HandleWalletEvents>
-          </RainbowKit>
-        </RWBProvider>
+        <Privy>
+          <RWBProvider>
+            <RainbowKit>
+              <HandleWalletEvents>{children}</HandleWalletEvents>
+            </RainbowKit>
+          </RWBProvider>
+        </Privy>
       </QueryClientProvider>
     </ThemeProvider>
   ) : null

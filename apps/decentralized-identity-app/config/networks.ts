@@ -50,4 +50,5 @@ if (PROVIDERS.length === 0 || env.NEXT_PUBLIC_USE_PUBLIC_PROVIDER === 'true') {
   PROVIDERS.push(publicProvider())
 }
 
-export const { chains, publicClient, webSocketPublicClient } = configureChains(CHAINS, PROVIDERS)
+export const configureChainsConfig = configureChains(CHAINS, PROVIDERS) // For Privy
+export const { chains, publicClient, webSocketPublicClient } = configureChainsConfig // For RainbowKit
